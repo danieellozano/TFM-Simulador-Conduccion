@@ -1,0 +1,16 @@
+{
+    "name": "Simulador.Evaluation",
+    "rootNamespace": "",
+    "references": [
+        "GUID:88020364ec98ce542ba6398c62f2a2af"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
