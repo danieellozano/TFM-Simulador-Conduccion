@@ -99,6 +99,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3357765682627167425}
+  - component: {fileID: 6724541061144880411}
   m_Layer: 0
   m_Name: StopSign-1
   m_TagString: Untagged
@@ -125,6 +126,27 @@ Transform:
   - {fileID: 4581865437481967297}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!65 &6724541061144880411
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3755780154240106724}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.4194336, y: 2.3500304, z: 0.46362305}
+  m_Center: {x: -0.013305664, y: 0.67501533, z: -0.047973633}
 --- !u!1 &5917429874248626969
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,8 +289,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 7.801016, y: 2.560199, z: 4.5780325}
-  m_Center: {x: 3.7163916, y: 0.7800993, z: 1.7890167}
+  m_Size: {x: 3.4901123, y: 2.560199, z: 4.5780325}
+  m_Center: {x: 2.0977173, y: 0.7800993, z: 1.7890167}
 --- !u!114 &8584632871533215918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,10 +304,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Simulador.Evaluation::Simulador.Evaluation.StopSignSensor
   vehicleSpeed: {fileID: 11400000, guid: 0bd0f38c67d88bf458c075e5c19f1b19, type: 2}
-  infractionEvent: {fileID: 11400000, guid: b8c4c553849233c448cad7d6f375d37d, type: 2}
+  onStopSuccessful: {fileID: 0}
   stopInfraction: {fileID: 11400000, guid: 4bbe1b912eb9f1f48af106c4332e6f62, type: 2}
-  hasStopped: 0
-  isVehicleInside: 0
+  infractionEvent: {fileID: 11400000, guid: b8c4c553849233c448cad7d6f375d37d, type: 2}
 --- !u!1 &8898425293828370040
 GameObject:
   m_ObjectHideFlags: 0

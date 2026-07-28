@@ -117,7 +117,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 674003096724465679}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.106}
+  m_LocalPosition: {x: 0, y: 0, z: 0.11}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -201,6 +201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1405983133520008747}
+  - component: {fileID: 6794923361939720515}
   m_Layer: 0
   m_Name: SpeedSign-50
   m_TagString: Untagged
@@ -227,6 +228,27 @@ Transform:
   - {fileID: 2991695399742094074}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6794923361939720515
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232196031085444668}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.33044434, y: 3.1040425, z: 0.3581543}
+  m_Center: {x: -0.0602417, y: 1.052021, z: -0.014282227}
 --- !u!1 &3277833724406210666
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,8 +619,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.21819, y: 1.708395, z: 1.2793579}
-  m_Center: {x: -1.7630707, y: 0.3541975, z: 1.503056}
+  m_Size: {x: 3.4489746, y: 1.708395, z: 3.1893659}
+  m_Center: {x: 2.079956, y: 0.3541975, z: 0.5480521}
 --- !u!114 &2998806833577984718
 MonoBehaviour:
   m_ObjectHideFlags: 0

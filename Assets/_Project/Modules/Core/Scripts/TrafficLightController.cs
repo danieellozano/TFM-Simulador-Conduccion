@@ -1,18 +1,13 @@
 using UnityEngine;
-using System.Collections;
 
 namespace Simulador.Core
 {
+    // Definición global de estados para que otros scripts lo encuentren
     public enum LightState { Red, Amber, Green }
 
     public class TrafficLightController : MonoBehaviour
     {
-        [Header("Configuración de Tiempos")]
-        public float greenTime = 7f;
-        public float amberTime = 3f;
-        public float redTime = 7f;
-
-        [Header("Estado Actual")]
+        [Header("Estado Actual (Controlado por Manager)")]
         public LightState currentState = LightState.Red;
         
         [Header("Referencias Visuales")]
@@ -22,29 +17,13 @@ namespace Simulador.Core
 
         private void Start()
         {
-            // Iniciamos el ciclo automático al arrancar el simulador
-            StartCoroutine(TrafficCycle());
+            UpdateVisuals();
         }
 
-        private IEnumerator TrafficCycle()
+        public void SetState(LightState newState)
         {
-            while (true) // Bucle infinito
-            {
-                // VERDE
-                currentState = LightState.Green;
-                UpdateVisuals();
-                yield return new WaitForSeconds(greenTime);
-
-                // ÁMBAR
-                currentState = LightState.Amber;
-                UpdateVisuals();
-                yield return new WaitForSeconds(amberTime);
-
-                // ROJO
-                currentState = LightState.Red;
-                UpdateVisuals();
-                yield return new WaitForSeconds(redTime);
-            }
+            currentState = newState;
+            UpdateVisuals();
         }
 
         private void UpdateVisuals()
