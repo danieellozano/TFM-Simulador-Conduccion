@@ -5,38 +5,48 @@ namespace Simulador.Evaluation
 {
     public class LaneSensor : MonoBehaviour
     {
-        [Header("Configuración")]
-        public LayerMask lineLayer;       // Selecciona la capa 'RoadLines'
-        public GameEvent infractionEvent; // Arrastra 'OnInfractionDetected'
-        public InfraccionSO lineInfraction; // Arrastra 'MAR-CONT'
+        [Header("Referencias SOA")]
+        public LayerMask lineLayer;       
+        public GameEvent infractionEvent; 
+        public InfraccionSO lineInfraction; 
 
-        [Header("Ajustes")]
-        public float detectionDistance = 0.5f; // Distancia del rayo hacia el suelo
-        public float cooldown = 2.0f;          // Segundos para no repetir la multa
-        
-        private float lastInfractionTime;
+        [Header("Ajustes de Sensor")]
+        public float detectionDistance = 0.5f; 
+
+        // Guardamos el objeto que estamos pisando actualmente
+        private Collider lastLineCollider; 
 
         private void Update()
         {
-            // Lanzamos un rayo desde el centro de la rueda hacia abajo
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, detectionDistance, lineLayer))
+            
+            // LANZAMOS EL RAYCAST (Línea fina vertical)
+            // Origen: centro de la rueda | Dirección: Abajo | Capa: RoadLines
+            bool hitDetected = Physics.Raycast(transform.position, Vector3.down, out hit, detectionDistance, lineLayer);
+
+            // LOGICA DE DETECCIÓN POR OBJETO
+            if (hitDetected)
             {
-                // Si el rayo toca algo en la capa 'RoadLines'
-                RegistrarPisoLinea();
+                // Si el colisionador que toca el rayo es DIFERENTE al anterior
+                if (hit.collider != lastLineCollider)
+                {
+                    lastLineCollider = hit.collider;
+                    RegistrarInfraccion();
+                }
+            }
+            else
+            {
+                // Si el rayo ya no toca ninguna línea, limpiamos la memoria
+                lastLineCollider = null;
             }
         }
 
-        private void RegistrarPisoLinea()
+        private void RegistrarInfraccion()
         {
-            if (Time.time > lastInfractionTime + cooldown)
+            if (infractionEvent != null)
             {
-                if (infractionEvent != null)
-                {
-                    infractionEvent.Raise(lineInfraction);
-                    lastInfractionTime = Time.time;
-                    Debug.Log("<color=orange>DGT:</color> Línea continua pisada detectada por " + gameObject.name);
-                }
+                infractionEvent.Raise(lineInfraction);
+                Debug.Log($"<color=orange>DGT:</color> Invasión (Raycast) detectada por {gameObject.name} en: {lastLineCollider.name}");
             }
         }
     }

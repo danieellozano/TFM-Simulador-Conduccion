@@ -5,56 +5,75 @@ namespace Simulador.Evaluation
 {
     public class ParkingZone : MonoBehaviour
     {
-        [Header("Configuración")]
+        [Header("Configuración de Maniobra")]
         public bool isFinalGoal = false;
-        public float timeToConfirm = 2.0f; // Segundos que debe estar quieto
-        
-        [Header("Referencias")]
+        public int requiredBlinkerSide; // -1 Izq, 1 Der
+        public float timeToConfirm = 2.0f;
+
+        [Header("Referencias SOA")]
+        public InputDataSO inputData;
         public FloatVariable vehicleSpeed;
-        public GameEvent onMissionComplete;
         public GameEvent onManiobraSuccess;
+        public GameEvent onMissionComplete;
+        public GameEvent infractionEvent;
+        public InfraccionSO blinkerInfraction;
 
-        private float stopTimer = 0f;
+        // ESTADOS LÓGICOS INTERNOS
+        private bool hasSignaledInTime = false;
+        private bool isInsideFinalSpot = false;
         private bool isParked = false;
+        private float stopTimer = 0f;
 
-        private void OnTriggerStay(Collider other)
+        // 1. LLAMADO POR EL HIJO "ZONA ANTICIPACION"
+        public void RegistrarAnticipacion()
         {
-            if (other.CompareTag("Player") && !isParked)
+            // Verificamos el intermitente en el momento de aproximación
+            hasSignaledInTime = (inputData.ActiveBlinker == requiredBlinkerSide);
+            
+            if (hasSignaledInTime) Debug.Log("<color=cyan>INFO:</color> Aproximación señalizada.");
+        }
+
+        // 2. LLAMADO POR EL HIJO "ZONA APARCAMIENTO"
+        public void SetInsideFinalSpot(bool inside)
+        {
+            isInsideFinalSpot = inside;
+            if (!inside) stopTimer = 0f; // Reset del cronómetro si el coche se sale
+        }
+
+        private void Update()
+        {
+            // LA CLAVE: Solo evaluamos si el coche está físicamente en el hueco final
+            if (isInsideFinalSpot && !isParked)
             {
-                // Si el coche está casi parado (< 0.1 Km/h)
                 if (vehicleSpeed.Value < 0.1f)
                 {
-                    stopTimer += Time.deltaTime; // Empezamos a contar
-
+                    stopTimer += Time.deltaTime;
                     if (stopTimer >= timeToConfirm)
                     {
                         isParked = true;
-                        ProcesarExito();
+                        EjecutarValidacionFinal();
                     }
                 }
                 else
                 {
-                    stopTimer = 0f; // Si se mueve, reseteamos el tiempo
+                    stopTimer = 0f;
                 }
             }
         }
 
-        private void ProcesarExito()
+        private void EjecutarValidacionFinal()
         {
-            if (isFinalGoal) {
-                if (onMissionComplete != null) onMissionComplete.Raise();
-            } else {
-                if (onManiobraSuccess != null) onManiobraSuccess.Raise();
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.CompareTag("Player"))
+            // Solo llegamos aquí si el usuario se ha DETENIDO 2 SEGUNDOS en la plaza.
+            // Es aquí donde comprobamos si avisó antes.
+            if (!hasSignaledInTime)
             {
-                isParked = false;
-                stopTimer = 0f;
+                if (infractionEvent != null) infractionEvent.Raise(blinkerInfraction);
+                Debug.Log("<color=red>DGT:</color> Estacionamiento completado sin señalización previa.");
             }
+
+            // Procesar el éxito de la misión
+            if (isFinalGoal) onMissionComplete?.Raise();
+            else onManiobraSuccess?.Raise();
         }
     }
 }

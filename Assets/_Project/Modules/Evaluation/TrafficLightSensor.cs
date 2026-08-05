@@ -9,26 +9,16 @@ namespace Simulador.Evaluation
         public GameEvent infractionEvent;
         public InfraccionSO redLightInfraction; 
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerExit(Collider other)
         {
-            // PASO 1: ¿Algo ha tocado el sensor?
-            Debug.Log($"<color=white>Semaforo:</color> Algo ha entrado en el sensor: {other.name}");
-
-            // PASO 2: ¿Ese algo es el Player?
             if (other.CompareTag("Player"))
             {
-                Debug.Log("<color=white>Semaforo:</color> Es el jugador. Estado actual: " + lightController.currentState);
-
-                // PASO 3: ¿El semáforo está en rojo?
+                // Si abandonas la zona y el semáforo sigue en rojo -> Multa Eliminatoria
                 if (lightController.currentState == LightState.Red)
                 {
-                    Debug.Log("<color=orange>Semaforo:</color> ¡Lanzando evento de infracción!");
                     if (infractionEvent != null) infractionEvent.Raise(redLightInfraction);
+                    Debug.Log("<color=red>DGT: Semáforo en rojo rebasado.</color>");
                 }
-            }
-            else
-            {
-                Debug.Log("<color=yellow>Semaforo:</color> Ignorado. El objeto no tiene el Tag 'Player'.");
             }
         }
     }
