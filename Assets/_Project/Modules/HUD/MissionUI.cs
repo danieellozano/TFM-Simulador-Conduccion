@@ -24,6 +24,9 @@ namespace Simulador.HUD
         public TextMeshProUGUI objectiveText;
         public Core.StringVariable objectiveSO; 
 
+        [Header("Referencias de Evaluación")]
+        public Evaluation.DGTEvaluator evaluator;
+
         private void Start()
         {
             // Inicialización de estado de interfaz
@@ -68,15 +71,20 @@ namespace Simulador.HUD
         #region Gestión de Estados de Fin de Sesión
         public void MostrarPantallaFinal(object data = null)
         {
-            if (summaryPanel == null) return;
-
             summaryPanel.SetActive(true);
-            if (finalTitleText != null) finalTitleText.text = "SESIÓN FINALIZADA\n";
+            
+            // 1. Consultar el veredicto
+            bool aprobado = evaluator.EsApto();
 
-            // Interrupción del motor físico
+            // 2. Formatear el texto de resultados
+            string veredicto = aprobado ? "<color=green>APTO</color>" : "<color=red>NO APTO</color>";
+            
+            finalTitleText.text = $"RESULTADO: {veredicto}\n\n" +
+                                $"<size=60%>Faltas Eliminatorias: {evaluator.faltasEliminatorias}\n" +
+                                $"Faltas Deficientes: {evaluator.faltasDeficientes}\n" +
+                                $"Faltas Leves: {evaluator.faltasLeves}</size>";
+
             Time.timeScale = 0f;
-
-            // Gestión de periféricos para navegación
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }

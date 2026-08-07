@@ -36,6 +36,13 @@ namespace Simulador.InputModule
                 Debug.Log("<color=yellow>InputReader:</color> Tecla R pulsada");
                 if(restartEvent != null) restartEvent.Raise();
             };
+
+            controls.Driving.Handbrake.performed += ctx => {
+            if(inputData != null) {
+                inputData.Handbrake = !inputData.Handbrake; // Funciona como un interruptor (Toggle)
+                Debug.Log("Freno de mano: " + (inputData.Handbrake ? "PUESTO" : "QUITADO"));
+            }
+        };
         }
 
         private void OnEnable() => controls?.Enable();

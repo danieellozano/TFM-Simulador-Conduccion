@@ -114,7 +114,7 @@ namespace Simulador.PhysicsModule
         {
             if (isStalled) { StopMotor(); currentRPM = 0; return; }
 
-            // 1. CÁLCULO DE RPM ESTABLE
+            // 1. CÁLCULO DE RPM ESTABLE (Igual que antes)
             float speedMS = rb.linearVelocity.magnitude;
             float wheelRadius = frontLeftWheel.radius;
             float wheelCircumference = 2 * Mathf.PI * wheelRadius;
@@ -132,7 +132,7 @@ namespace Simulador.PhysicsModule
             
             currentRPM = Mathf.Lerp(currentRPM, Mathf.Max(targetRPM, minRPM), Time.fixedDeltaTime * 12f);
 
-            // 2. GOBERNADOR MECÁNICO
+            // 2. GOBERNADOR MECÁNICO (Igual que antes)
             float torqueFactor = 1.0f;
             float engineResistanceBrake = 0f;
 
@@ -146,22 +146,40 @@ namespace Simulador.PhysicsModule
                 torqueFactor = Mathf.InverseLerp(maxRPM, maxRPM * 0.9f, currentRPM);
             }
 
-            // 3. ENTREGA DE PAR
+            // --- 3. LÓGICA DE FRENO DE MANO ---
+            // Aplicamos una fuerza masiva a las ruedas traseras si el freno de mano está puesto.
+            // Usamos el doble de brakeForce para asegurar bloqueo total.
+            float handbrakeTorque = inputData.Handbrake ? brakeForce * 2f : 0f;
+
+            // --- 4. ENTREGA DE PAR ---
             float transmission = 1.0f - inputData.Clutch;
             float wheelTorque = inputData.Throttle * motorForce * currentGearRatio * finalDriveRatio * transmission * torqueFactor;
+
+            // Si el freno de mano está puesto, el motor no transmite fuerza a las ruedas
+            if (inputData.Handbrake) wheelTorque = 0;
 
             rearLeftWheel.motorTorque = wheelTorque;
             rearRightWheel.motorTorque = wheelTorque;
 
-            // 4. FRENADO
-            float totalBrake = (inputData.Breaking * brakeForce) + engineResistanceBrake;
+            // --- 5. SISTEMA DE FRENADO DISTRIBUIDO ---
+            // Pedal de freno (S) afecta a las 4 ruedas
+            float pedalBrake = inputData.Breaking * brakeForce;
 
+            // Eje Delantero: Pedal + Resistencia por exceso de RPM
+            frontLeftWheel.brakeTorque = pedalBrake + engineResistanceBrake;
+            frontRightWheel.brakeTorque = pedalBrake + engineResistanceBrake;
+
+            // Eje Trasero: Pedal + Freno de Mano + Freno Motor + Resistencia exceso RPM
+            float totalRearBrake = pedalBrake + handbrakeTorque + engineResistanceBrake;
+
+            // Añadimos el freno motor estándar (cuando no se acelera)
             if (inputData.Throttle < 0.1f && currentGearRatio != 0)
             {
-                totalBrake += engineBrakeForce * Mathf.Abs(currentGearRatio);
+                totalRearBrake += engineBrakeForce * Mathf.Abs(currentGearRatio);
             }
 
-            ApplyBrake(totalBrake);
+            rearLeftWheel.brakeTorque = totalRearBrake;
+            rearRightWheel.brakeTorque = totalRearBrake;
 
             if (engineRPMVariable != null) engineRPMVariable.Value = currentRPM;
         }

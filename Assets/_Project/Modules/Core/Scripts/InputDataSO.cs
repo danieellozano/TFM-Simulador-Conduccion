@@ -12,6 +12,7 @@ namespace Simulador.Core
         public float Clutch; // Shift (Embrague: 0 suelto, 1 pisado)
         public int CurrentGear; // -1 Reversa, 0 Neutral, 1-5 Marchas
         public int ActiveBlinker; // -1 Izq, 0 Off, 1 Der
+        public bool Handbrake; // Freno de mano (0 suelto, 1 pisado)
 
         public void ResetData()
         {
@@ -21,6 +22,7 @@ namespace Simulador.Core
             Clutch = 0;
             CurrentGear = 0;
             ActiveBlinker = 0;
+            Handbrake = true;
         }
     }
 }

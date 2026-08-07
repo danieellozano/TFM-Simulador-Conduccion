@@ -163,6 +163,15 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Handbrake"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a722e7b-eceb-4442-8b6b-e908ef3f17db"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -297,6 +306,17 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
                     ""action"": ""Blinkers"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ed38046a-353d-4dcd-97c9-dd4b0056d217"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Handbrake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -313,6 +333,7 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
         m_Driving_Clutch = m_Driving.FindAction("Clutch", throwIfNotFound: true);
         m_Driving_Restart = m_Driving.FindAction("Restart", throwIfNotFound: true);
         m_Driving_Blinkers = m_Driving.FindAction("Blinkers", throwIfNotFound: true);
+        m_Driving_Handbrake = m_Driving.FindAction("Handbrake", throwIfNotFound: true);
     }
 
     ~@SimuladorInput()
@@ -401,6 +422,7 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Driving_Clutch;
     private readonly InputAction m_Driving_Restart;
     private readonly InputAction m_Driving_Blinkers;
+    private readonly InputAction m_Driving_Handbrake;
     /// <summary>
     /// Provides access to input actions defined in input action map "Driving".
     /// </summary>
@@ -444,6 +466,10 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Driving/Blinkers".
         /// </summary>
         public InputAction @Blinkers => m_Wrapper.m_Driving_Blinkers;
+        /// <summary>
+        /// Provides access to the underlying input action "Driving/Handbrake".
+        /// </summary>
+        public InputAction @Handbrake => m_Wrapper.m_Driving_Handbrake;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -494,6 +520,9 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
             @Blinkers.started += instance.OnBlinkers;
             @Blinkers.performed += instance.OnBlinkers;
             @Blinkers.canceled += instance.OnBlinkers;
+            @Handbrake.started += instance.OnHandbrake;
+            @Handbrake.performed += instance.OnHandbrake;
+            @Handbrake.canceled += instance.OnHandbrake;
         }
 
         /// <summary>
@@ -529,6 +558,9 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
             @Blinkers.started -= instance.OnBlinkers;
             @Blinkers.performed -= instance.OnBlinkers;
             @Blinkers.canceled -= instance.OnBlinkers;
+            @Handbrake.started -= instance.OnHandbrake;
+            @Handbrake.performed -= instance.OnHandbrake;
+            @Handbrake.canceled -= instance.OnHandbrake;
         }
 
         /// <summary>
@@ -625,5 +657,12 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBlinkers(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Handbrake" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHandbrake(InputAction.CallbackContext context);
     }
 }

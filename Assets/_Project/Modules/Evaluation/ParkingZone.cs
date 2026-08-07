@@ -8,7 +8,7 @@ namespace Simulador.Evaluation
         [Header("Configuración de Maniobra")]
         public bool isFinalGoal = false;
         public int requiredBlinkerSide; // -1 Izq, 1 Der
-        public float timeToConfirm = 2.0f;
+        public float waitTimeBeforePenalty = 5.0f;
 
         [Header("Referencias SOA")]
         public InputDataSO inputData;
@@ -16,62 +16,67 @@ namespace Simulador.Evaluation
         public GameEvent onManiobraSuccess;
         public GameEvent onMissionComplete;
         public GameEvent infractionEvent;
+        
+        [Header("Reglas DGT")]
         public InfraccionSO blinkerInfraction;
+        public InfraccionSO noHandbrakeInfraction;
+        public InfraccionSO ruleEliminatoria; // <--- ESTO FALTABA
 
-        // ESTADOS LÓGICOS INTERNOS
         private bool hasSignaledInTime = false;
         private bool isInsideFinalSpot = false;
-        private bool isParked = false;
+        private bool isManiobraEvaluated = false;
         private float stopTimer = 0f;
 
-        // 1. LLAMADO POR EL HIJO "ZONA ANTICIPACION"
         public void RegistrarAnticipacion()
         {
-            // Verificamos el intermitente en el momento de aproximación
+            if (isManiobraEvaluated) return;
             hasSignaledInTime = (inputData.ActiveBlinker == requiredBlinkerSide);
-            
-            if (hasSignaledInTime) Debug.Log("<color=cyan>INFO:</color> Aproximación señalizada.");
         }
 
-        // 2. LLAMADO POR EL HIJO "ZONA APARCAMIENTO"
         public void SetInsideFinalSpot(bool inside)
         {
             isInsideFinalSpot = inside;
-            if (!inside) stopTimer = 0f; // Reset del cronómetro si el coche se sale
+            if (!inside) stopTimer = 0f; 
         }
 
         private void Update()
         {
-            // LA CLAVE: Solo evaluamos si el coche está físicamente en el hueco final
-            if (isInsideFinalSpot && !isParked)
+            if (!isInsideFinalSpot || isManiobraEvaluated) return;
+
+            if (vehicleSpeed.Value < 0.1f)
             {
-                if (vehicleSpeed.Value < 0.1f)
+                stopTimer += Time.deltaTime;
+                if (inputData.Handbrake)
                 {
-                    stopTimer += Time.deltaTime;
-                    if (stopTimer >= timeToConfirm)
-                    {
-                        isParked = true;
-                        EjecutarValidacionFinal();
-                    }
+                    FinalizarMision(true);
                 }
-                else
+                else if (stopTimer >= waitTimeBeforePenalty)
                 {
-                    stopTimer = 0f;
+                    FinalizarMision(false);
+                }
+            }
+            else { stopTimer = 0f; }
+        }
+
+        // Este es el método que llama el CollisionEvaluator
+        public void RegistrarColisionEnZona()
+        {
+            if (isInsideFinalSpot && !inputData.Handbrake && !isManiobraEvaluated)
+            {
+                if (infractionEvent != null && ruleEliminatoria != null)
+                {
+                    infractionEvent.Raise(ruleEliminatoria);
+                    Debug.Log("<color=red>DGT ELIMINATORIA:</color> Colisión por falta de inmovilización.");
                 }
             }
         }
 
-        private void EjecutarValidacionFinal()
+        private void FinalizarMision(bool pusoFrenoMano)
         {
-            // Solo llegamos aquí si el usuario se ha DETENIDO 2 SEGUNDOS en la plaza.
-            // Es aquí donde comprobamos si avisó antes.
-            if (!hasSignaledInTime)
-            {
-                if (infractionEvent != null) infractionEvent.Raise(blinkerInfraction);
-                Debug.Log("<color=red>DGT:</color> Estacionamiento completado sin señalización previa.");
-            }
+            isManiobraEvaluated = true;
+            if (!hasSignaledInTime) infractionEvent?.Raise(blinkerInfraction);
+            if (!pusoFrenoMano) infractionEvent?.Raise(noHandbrakeInfraction);
 
-            // Procesar el éxito de la misión
             if (isFinalGoal) onMissionComplete?.Raise();
             else onManiobraSuccess?.Raise();
         }

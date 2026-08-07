@@ -22,7 +22,10 @@ namespace Simulador.HUD
 
         [Header("Intermitentes")]
         public GameObject leftArrow;
-        public GameObject rightArrow;     
+        public GameObject rightArrow; 
+
+        [Header("Indicador Freno de Mano")]
+        public GameObject handbrakeIcon;    
 
         [Header("Vehicle Controller")]
         public Simulador.PhysicsModule.VehicleController vehicle;
@@ -75,6 +78,12 @@ namespace Simulador.HUD
                 
                 // Cambiar a rojo si supera el límite de seguridad (ej. 5500)
                 rpmText.color = (roundedRPM >= 5500) ? Color.red : Color.white;
+            }
+
+            if (vehicle != null && handbrakeIcon != null)
+            {
+                // El icono se activa si el booleano Handbrake en el InputData es true
+                handbrakeIcon.SetActive(vehicle.inputData.Handbrake);
             }
 
         }

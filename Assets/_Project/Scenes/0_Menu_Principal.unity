@@ -3596,7 +3596,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1460781013}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.7694938
+  m_Size: 0.74745136
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5413,8 +5413,9 @@ MonoBehaviour:
     Shift Izq ]</b></color> : Pedal de Embrague (Clutch)\n\n\r\nCONTROL LATERAL (Direcci\xF3n)\r\n<color=#FFFF00><b>[
     A ] / [ D ]</b></color> : Girar Volante (Steering)\r\nTRANSMISI\xD3N MANUAL\r\n<color=#FFFF00><b>[
     E ]</b></color> : Subir Marcha (Gear Up)\r\n<color=#FFFF00><b>[ Q ]</b></color>
-    : Bajar Marcha (Gear Down)\r\nNota: Es obligatorio pisar el embrague para cambiar
-    de marcha.\n\n\r\nSISTEMAS AUXILIARES\r\n<color=#FFFF00><b>[ R ]</b></color>
+    : Bajar Marcha (Gear Down)\n<color=#FFFF00><b>[ ESPACIO ]</b></color> : Activar/Desacttivar
+    Freno de Mano (Handbrake On/Off)\r\nNota: Es obligatorio pisar el embrague para
+    cambiar de marcha.\n\n\r\nSISTEMAS AUXILIARES\r\n<color=#FFFF00><b>[ R ]</b></color>
     : Arrancar Motor (En caso de calado)\r\n<color=#FFFF00><b>[ Z ]</b></color> :
     Intermitente Izquierdo\r\n<color=#FFFF00><b>[ X ]</b></color> : Intermitente
     Derecho\n\n\r\nINTERFAZ\r\n<color=#FFFF00><b>[ Esc ]</b></color> : Pausa / Salir\n"

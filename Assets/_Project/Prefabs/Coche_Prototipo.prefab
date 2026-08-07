@@ -72,7 +72,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 129
+    m_Bits: 193
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 8764f1b793b4dea49861fd0458081b9a, type: 2}
   m_TargetDisplay: 0
@@ -415,7 +415,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 129
+    m_Bits: 193
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 1aafd482318813e4489e82df9c188fd6, type: 2}
   m_TargetDisplay: 0
@@ -543,7 +543,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 129
+    m_Bits: 193
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 491d598b4f3df7a4cbe0e1d629d63d16, type: 2}
   m_TargetDisplay: 0
@@ -751,6 +751,8 @@ GameObject:
   - component: {fileID: 5065719839607589469}
   - component: {fileID: 5215022328508516563}
   - component: {fileID: 281791087005821461}
+  - component: {fileID: 1560934583519255964}
+  - component: {fileID: 7017991122214891802}
   m_Layer: 0
   m_Name: Coche_Prototipo
   m_TagString: Player
@@ -951,6 +953,40 @@ MonoBehaviour:
   infractionEvent: {fileID: 11400000, guid: b8c4c553849233c448cad7d6f375d37d, type: 2}
   stopInfraction: {fileID: 11400000, guid: f213673e5c497f94aafd10ac1cb6e4c3, type: 2}
   timeAllowedToStop: 3
+  zonesCount: 0
+--- !u!114 &1560934583519255964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501112851305959617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e05cb61621acdf64c9e03301fd9358bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.Evaluation::Simulador.Evaluation.CollisionEvaluator
+  infractionEvent: {fileID: 11400000, guid: b8c4c553849233c448cad7d6f375d37d, type: 2}
+  curbInfraction: {fileID: 11400000, guid: 7cda062c91e0e8240a07d3d53f9c44d5, type: 2}
+  objectInfraction: {fileID: 11400000, guid: 00a9b0942e9ca4a4e90eb8fbe4c6b503, type: 2}
+  impulseThreshold: 10
+--- !u!114 &7017991122214891802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501112851305959617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 248eaabf5bd123f459a218e0b422f3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.Evaluation::Simulador.Evaluation.IllegalReverseEvaluator
+  inputData: {fileID: 11400000, guid: ecc662eaada989742917e831b6e7cb15, type: 2}
+  vehicleSpeed: {fileID: 11400000, guid: 0bd0f38c67d88bf458c075e5c19f1b19, type: 2}
+  infractionEvent: {fileID: 11400000, guid: b8c4c553849233c448cad7d6f375d37d, type: 2}
+  reverseInfraction: {fileID: 11400000, guid: 228c3f91564eb2847bc93974cc5b9b7e, type: 2}
+  isInsideSafeZone: 0
 --- !u!1 &6457457277907776845
 GameObject:
   m_ObjectHideFlags: 0

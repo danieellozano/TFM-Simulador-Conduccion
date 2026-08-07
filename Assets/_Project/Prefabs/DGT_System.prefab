@@ -11,6 +11,11 @@ GameObject:
   - component: {fileID: 8411718907531099815}
   - component: {fileID: 1455296684473843668}
   - component: {fileID: 6311900833283345103}
+  - component: {fileID: 5628456415433156264}
+  - component: {fileID: 7195900766830557322}
+  - component: {fileID: 1841756179225871043}
+  - component: {fileID: 3258220641811729005}
+  - component: {fileID: 5997672840587650709}
   m_Layer: 0
   m_Name: DGT_System
   m_TagString: Untagged
@@ -45,6 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd61255e525de9e4181b0c7df2bf3a96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Simulador.Evaluation::Simulador.Evaluation.DGTEvaluator
+  faltasLeves: 0
+  faltasDeficientes: 0
+  faltasEliminatorias: 0
   historialInfracciones: []
 --- !u!114 &6311900833283345103
 MonoBehaviour:
@@ -74,3 +82,115 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5628456415433156264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7431297547765665499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f26a26d2fa4e9447aaa56bf555782a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.core::Simulador.Core.GameEventListener
+  Event: {fileID: 11400000, guid: 66d6a7dc0dc00d346bb24f26d0966d55, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Simulador.Core.UrbanMissionManager, Simulador.core
+        m_MethodName: AvanzarTarea
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7195900766830557322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7431297547765665499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f26a26d2fa4e9447aaa56bf555782a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.core::Simulador.Core.GameEventListener
+  Event: {fileID: 11400000, guid: 2afe338510d8a77428bd6c81c927c03a, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Simulador.Core.UrbanMissionManager, Simulador.core
+        m_MethodName: AvanzarTarea
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1841756179225871043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7431297547765665499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36b77dd4e63b304597ab53e156d5e6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.Evaluation::Simulador.Evaluation.BlinkerMisuseEvaluator
+  inputData: {fileID: 11400000, guid: ecc662eaada989742917e831b6e7cb15, type: 2}
+  vehicleSpeed: {fileID: 11400000, guid: 0bd0f38c67d88bf458c075e5c19f1b19, type: 2}
+  infractionEvent: {fileID: 11400000, guid: b8c4c553849233c448cad7d6f375d37d, type: 2}
+  blinkerInfraction: {fileID: 11400000, guid: b5b1d1a87fb3e4c4082e36341b3adf19, type: 2}
+  maxDistanceWithoutTurn: 50
+  steeringThreshold: 0.15
+--- !u!114 &3258220641811729005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7431297547765665499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f5bc429db227f41a5e25348b50d750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.Evaluation::Simulador.Evaluation.GearEfficiencyEvaluator
+  engineRPM: {fileID: 11400000, guid: 3901becd83638fe46ae64bc6ca8ae2ee, type: 2}
+  currentGear: {fileID: 11400000, guid: 24a085575820d7242af00cbe407c40b8, type: 2}
+  infractionEvent: {fileID: 11400000, guid: b8c4c553849233c448cad7d6f375d37d, type: 2}
+  gearInfraction: {fileID: 11400000, guid: fcda138c6e7901949abfb4d7ba82c453, type: 2}
+  highRPMThreshold: 4000
+  lowRPMThreshold: 1000
+  maxTimeOutOfRange: 5
+--- !u!114 &5997672840587650709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7431297547765665499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a33f24e581b974d9022fc27de5240f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.Evaluation::Simulador.Evaluation.HandbrakeEvaluator
+  inputData: {fileID: 11400000, guid: ecc662eaada989742917e831b6e7cb15, type: 2}
+  currentSpeed: {fileID: 11400000, guid: 0bd0f38c67d88bf458c075e5c19f1b19, type: 2}
+  infractionEvent: {fileID: 11400000, guid: b8c4c553849233c448cad7d6f375d37d, type: 2}
+  ruleLeve: {fileID: 11400000, guid: 288d32308e1573f45aab15704f02d43a, type: 2}
+  ruleDeficiente: {fileID: 11400000, guid: 7acf0b3253549a94d8c6c0297142e67f, type: 2}
+  ruleEliminatoria: {fileID: 11400000, guid: cae169086b93a6947873ce8177365793, type: 2}
+  timeForDeficiente: 5
