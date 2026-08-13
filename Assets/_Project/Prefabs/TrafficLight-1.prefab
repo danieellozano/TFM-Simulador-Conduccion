@@ -270,6 +270,59 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3199227268935595235
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 245528690767796425}
+  - component: {fileID: 1766972450929484490}
+  m_Layer: 9
+  m_Name: AI_Stop_Bar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &245528690767796425
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3199227268935595235}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 170057452466594074}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1766972450929484490
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3199227268935595235}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.0708, y: 2.3276834, z: 0.8277585}
+  m_Center: {x: 2.2491493, y: 0.66384196, z: 0.18747282}
 --- !u!1 &4391755518733958386
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,9 +333,10 @@ GameObject:
   m_Component:
   - component: {fileID: 170057452466594074}
   - component: {fileID: 3802592148475488047}
+  - component: {fileID: 5466812980786276973}
   m_Layer: 0
   m_Name: TrafficLight-1
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -309,6 +363,7 @@ Transform:
   - {fileID: 4401284910747899811}
   - {fileID: 8906871803747337718}
   - {fileID: 2728454242445725607}
+  - {fileID: 245528690767796425}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 177.34, z: 0}
 --- !u!114 &3802592148475488047
@@ -323,13 +378,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af7311b4269990b45a91d0b28e3c0e2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Simulador.core::Simulador.Core.TrafficLightController
-  greenTime: 7
-  amberTime: 3
-  redTime: 7
   currentState: 0
   redLight: {fileID: 4925356554995050054}
   amberLight: {fileID: 1880454378929230104}
   greenLight: {fileID: 5015515184027866417}
+  aiStopBarrier: {fileID: 3199227268935595235}
+  detectionZone: {fileID: 5452233883702486038}
+--- !u!65 &5466812980786276973
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4391755518733958386}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.57226545, y: 3.0361085, z: 0.5826414}
+  m_Center: {x: 0.10876861, y: 1.018054, z: -0.21865478}
 --- !u!1 &4925356554995050054
 GameObject:
   m_ObjectHideFlags: 0
@@ -523,7 +598,7 @@ GameObject:
   - component: {fileID: 2526639728521462016}
   m_Layer: 0
   m_Name: Sensor_Infraccion
-  m_TagString: Untagged
+  m_TagString: ValidStopZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -562,8 +637,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.5585923, y: 2.1938725, z: 3.919188}
-  m_Center: {x: 1.9955015, y: 0.7412925, z: 1.7607903}
+  m_Size: {x: 3.5585923, y: 2.1938725, z: 20.354105}
+  m_Center: {x: 1.9955015, y: 0.7412925, z: 9.9782505}
 --- !u!114 &2526639728521462016
 MonoBehaviour:
   m_ObjectHideFlags: 0

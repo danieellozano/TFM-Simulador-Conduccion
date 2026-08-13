@@ -13,11 +13,11 @@ namespace Simulador.Evaluation
         {
             if (other.CompareTag("Player"))
             {
-                // Si abandonas la zona y el semáforo sigue en rojo -> Multa Eliminatoria
+                // Solo si el alumno ABANDONA la zona mientras sigue en rojo
                 if (lightController.currentState == LightState.Red)
                 {
                     if (infractionEvent != null) infractionEvent.Raise(redLightInfraction);
-                    Debug.Log("<color=red>DGT: Semáforo en rojo rebasado.</color>");
+                    Debug.Log("<color=red>DGT:</color> Semáforo en rojo rebasado.");
                 }
             }
         }
