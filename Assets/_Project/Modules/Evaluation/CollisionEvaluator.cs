@@ -9,6 +9,7 @@ namespace Simulador.Evaluation
         public GameEvent infractionEvent;     
         public InfraccionSO curbInfraction;    // MAN_BORDILLO
         public InfraccionSO objectInfraction;  // SIG_OBSTACULO
+        public InfraccionSO trafficCollisionRule; // COLISION_VEHICULO
 
         [Header("Configuración Física")]
         public float impulseThreshold = 100f; 
@@ -21,21 +22,26 @@ namespace Simulador.Evaluation
             // CASO A: Impacto con Bordillo
             if (collision.gameObject.CompareTag("Bordillo"))
             {
-                RegistrarFalta(curbInfraction);
+                RegistrarInfraccion(curbInfraction);
                 
                 // Avisamos a la zona de parking si el choque fue por no frenar bien
                 ParkingZone activeZone = Object.FindFirstObjectByType<ParkingZone>();
                 if (activeZone != null) activeZone.RegistrarColisionEnZona();
             }
+            else if (collision.gameObject.CompareTag("Traffic"))
+            {
+                RegistrarInfraccion(trafficCollisionRule);
+                Debug.Log("<color=red>DGT ELIMINATORIA:</color> Colisión con otro vehículo.");
+            }
             // CASO B: Impacto con mobiliario urbano
             else if (collision.gameObject.CompareTag("Obstacle"))
             {
-                RegistrarFalta(objectInfraction);
+                RegistrarInfraccion(objectInfraction);
             }
         }
 
         // Este es el método que te faltaba
-        private void RegistrarFalta(InfraccionSO info)
+        private void RegistrarInfraccion(InfraccionSO info)
         {
             if (infractionEvent != null && info != null)
             {

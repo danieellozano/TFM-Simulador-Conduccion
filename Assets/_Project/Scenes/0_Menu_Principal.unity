@@ -1128,7 +1128,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 97086456}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.6882926
+  m_Size: 0.3194803
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2642,18 +2642,55 @@ MonoBehaviour:
       m_Calls: []
   m_text: "SISTEMA DE CALIFICACI\xD3N DGT\n\n\r\nEl simulador eval\xFAa tu conducci\xF3n
     bas\xE1ndose en tres tipos de faltas. La acumulaci\xF3n de las mismas determina
-    el resultado de APTO o NO APTO.\n\n\r\n<color=red><b>FALTAS ELIMINATORIAS (E)</b></color>\r\n<i>Comportan
-    el suspenso directo (1 falta).</i>\r\n<b>SIG-STOP:</b> No detenerse ante se\xF1al
-    de STOP.\r\n<b>SIG-ROJO:</b> Rebasar sem\xE1foro en fase roja.\r\n<b>MAN-BOR:</b>
-    Subirse al bordillo o golpear obst\xE1culos.\r\n<b>INT-PEA:</b> No respetar la
-    prioridad de peatones.\n\n\r\n<color=orange><b>FALTAS DEFICIENTES (D)</b></color>\r\n<i>2
-    faltas de este tipo suponen el suspenso.</i>\r\n<b>MAR-CONT:</b> Pisar l\xEDnea
-    longitudinal continua.\r\n<b>INT-DIST:</b> No mantener distancia de seguridad.\r\n<b>SIG-CEDER:</b>
-    No ceder el paso (sin peligro inmediato).\n\n\r\n<color=yellow><b>FALTAS LEVES
-    (L)</b></color>\r\n<i>Se permiten hasta 9 (10 suponen el suspenso).</i>\r\n<b>INT-IND:</b>
-    No se\xF1alizar maniobras (intermitentes).\r\n<b>CON-CALA:</b> Calado del motor
-    por mal uso del embrague.\r\n<b>VEL-GEN:</b> Rebasar la velocidad m\xE1xima (entre
-    10-20 km/h).\r\n"
+    el resultado de APTO o NO APTO.\n\n<size=125%><b>CAT\xC1LOGO DE INFRACCIONES
+    (NORMATIVA DGT)</b></size>\n\r\n<color=#FFFFFF>___________________________________________________________</color>\n\n\r\n<b><color=#00FFFF>SE\xD1ALIZACI\xD3N
+    Y PRIORIDAD</color></b>\n\r\n\u2022 <b>SIG-STO:</b> No detenerse completamente
+    (0 Km/h) ante se\xF1al de STOP. <color=red>(Eliminatoria)</color>\r\n\u2022 <b>SIG-ROJ:</b>
+    Rebasar un sem\xE1foro en fase roja. <color=red>(Eliminatoria)</color>\r\n\u2022
+    <b>SIG-SEC:</b> Entrar en calle de direcci\xF3n prohibida ignorando la se\xF1alizaci\xF3n.
+    <color=red>(Eliminatoria)</color>\r\n\u2022 <b>SIG-CED:</b> No ceder el paso,
+    obligando a otros a frenar o esquivar. <color=red>(Eliminatoria)</color>\r\n\u2022
+    <b>SIG-REV:</b> Realizar la maniobra de marcha atr\xE1s de forma no autorizada.
+    <color=red>(Eliminatoria)</color>\n\n\r\n<b><color=#00FFFF>CONTROL DEL VEH\xCDCULO</color></b>\n\r\n\u2022
+    <b>CON-CAL:</b> Detenci\xF3n accidental del motor (Calado) por mal uso del embrague.
+    <color=yellow>(Leve)</color>\r\n\u2022 <b>CON-MAR:</b> Circular con una marcha
+    inadecuada para el r\xE9gimen de RPM. <color=yellow>(Leve)</color>\r\n\u2022
+    <b>CON-PAR:</b> Detenci\xF3n injustificada en la v\xEDa entorpeciendo la fluidez.
+    <color=yellow>(Leve)</color>\r\n\u2022 <b>CON-EFI:</b> Aceleraciones o frenazos
+    bruscos (Conducci\xF3n ineficiente). <color=yellow>(Leve)</color>\n\n\r\n<b><color=#00FFFF>SISTEMAS
+    DE ESTACIONAMIENTO</color></b>\n\r\n\u2022 <b>EST-FL:</b> No asegurar el veh\xEDculo
+    con freno de mano en terreno llano. <color=yellow>(Leve)</color>\r\n\u2022 <b>EST-FD:</b>
+    Desplazamiento del veh\xEDculo por no accionar el freno de mano. <color=#FF8000>(Deficiente)</color>\r\n\u2022
+    <b>EST-FE:</b> Colisi\xF3n causada por no inmovilizar el veh\xEDculo correctamente.
+    <color=red>(Eliminatoria)</color>\r\n\u2022 <b>FRN-ML:</b> Iniciar la marcha
+    con el freno de mano puesto (detecci\xF3n r\xE1pida). <color=yellow>(Leve)</color>\r\n\u2022
+    <b>FRN-MD:</b> Circular de forma continuada con el freno de mano accionado. <color=#FF8000>(Deficiente)</color>\r\n\u2022
+    <b>FRN-ME:</b> Accionar el freno de mano en marcha provocando riesgo de derrape.
+    <color=red>(Eliminatoria)</color>\n\n\r\n<b><color=#00FFFF>POSICIONAMIENTO Y
+    V\xCDA</color></b>\n\r\n\u2022 <b>MAR-CON:</b> Pisar o franquear una l\xEDnea
+    longitudinal continua. <color=#FF8000>(Deficiente)</color>\r\n\u2022 <b>MAR-SEN:</b>
+    Circular por el carril de sentido contrario en v\xEDas dobles. <color=red>(Eliminatoria)</color>\r\n\u2022
+    <b>MAR-CEB:</b> Quedar detenido sobre un paso de peatones sin causa. <color=yellow>(Leve)</color>\r\n\u2022
+    <b>MAR-ACE:</b> Circular con una o m\xE1s ruedas por encima de la acera. <color=red>(Eliminatoria)</color>\n\n\r\n<b><color=#00FFFF>VELOCIDAD</color></b>\n\r\n\u2022
+    <b>VEL-GEN:</b> Exceso de velocidad entre 10 y 20 Km/h sobre el l\xEDmite. <color=yellow>(Leve)</color>\r\n\u2022
+    <b>VEL-MAX:</b> Exceso de velocidad superior a 20 Km/h sobre el l\xEDmite. <color=red>(Eliminatoria)</color>\r\n\u2022
+    <b>VEL-AL:</b> Velocidad ligeramente superior a la aconsejable en curvas. <color=yellow>(Leve)</color>\r\n\u2022
+    <b>VEL-AD:</b> Velocidad inadecuada en curva con p\xE9rdida leve de estabilidad.
+    <color=#FF8000>(Deficiente)</color>\r\n\u2022 <b>VEL-AE:</b> Velocidad peligrosa
+    en curva con riesgo inminente de vuelco o salida. <color=red>(Eliminatoria)</color>\n\n\r\n<b><color=#00FFFF>INTERACCI\xD3N
+    Y SEGURIDAD</color></b>\n\r\n\u2022 <b>INT-IND:</b> No se\xF1alizar u olvidar
+    puesto el indicador de direcci\xF3n. <color=yellow>(Leve)</color>\r\n\u2022 <b>INT-DIS:</b>
+    No mantener la distancia de seguridad con el coche precedente. <color=#FF8000>(Deficiente)</color>\r\n\u2022
+    <b>INT-PEA:</b> No respetar la prioridad de un peat\xF3n en su zona de paso.
+    <color=red>(Eliminatoria)</color>\r\n\u2022 <b>COL-OBJ:</b> Colisi\xF3n o roce
+    con se\xF1ales, farolas o mobiliario urbano. <color=red>(Eliminatoria)</color>\r\n\u2022
+    <b>COL-VEH:</b> Colisi\xF3n o roce con otros veh\xEDculos en movimiento o parados.
+    <color=red>(Eliminatoria)</color>\r\n\u2022 <b>MAN-BOR:</b> Subirse al bordillo
+    o golpearlo violentamente en maniobra. <color=red>(Eliminatoria)</color>\n\r\n<color=#FFFFFF>___________________________________________________________</color>\n\r\n<size=90%><b>RESUMEN
+    DE CALIFICACI\xD3N:</b>\r\n<color=red>\u2022 1 Falta Eliminatoria = <b>NO APTO</b></color>\r\n<color=#FF8000>\u2022
+    2 Faltas Deficientes = <b>NO APTO</b></color>\n<color=#FF8000>\u2022 1 Falta
+    Deficiente y 5 Faltas Leves = <b>NO APTO</b></color>\r\n<color=yellow>\u2022
+    10 Faltas Leves = <b>NO APTO</b></color></size>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

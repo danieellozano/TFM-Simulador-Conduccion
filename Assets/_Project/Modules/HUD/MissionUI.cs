@@ -1,110 +1,125 @@
 using UnityEngine;
 using TMPro;
-using System.Collections;
 using UnityEngine.SceneManagement;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using Simulador.Core;
+using Simulador.Evaluation;
 
 namespace Simulador.HUD
 {
     public class MissionUI : MonoBehaviour
     {
-        [Header("Ajustes de Notificación")]
-        public float messageDuration = 5f;
-        public GameObject notificationPanel;
-        public TextMeshProUGUI notificationText;
+        [Header("Dashboard Permanente (Durante conducción)")]
+        [Tooltip("El texto que dice '1. Deténgase en el STOP'")]
+        public TextMeshProUGUI dashboardObjectiveText; 
+        public StringVariable objectiveSO; 
 
-        [Header("Panel Final (Resultados)")]
-        public GameObject summaryPanel;
-        public TextMeshProUGUI finalTitleText;
+        [Header("Paneles de Fin de Sesión")]
+        public GameObject summaryPanel;      
+        public GameObject reportPanelBase;   
+        public GameObject detailsPanelTabla; 
+        public GameObject pauseMenuPanel;
 
-        [Header("Guía de Misión (SOA)")]
-        public TextMeshProUGUI objectiveText;
-        public Core.StringVariable objectiveSO; 
+        [Header("Textos del Reporte Base")]
+        public TextMeshProUGUI titleStatusText; 
+        public TextMeshProUGUI resultStatusText; 
 
-        [Header("Referencias de Evaluación")]
-        public Evaluation.DGTEvaluator evaluator;
+        [Header("Textos de la Tabla Detallada")]
+        public TextMeshProUGUI reportHeader;
+        public TextMeshProUGUI tableBodyText;
+        public TextMeshProUGUI totalInfraccionesText;
+
+        [Header("Referencias")]
+        public DGTEvaluator evaluator;
 
         private void Start()
         {
-            // Inicialización de estado de interfaz
-            if (notificationPanel != null) notificationPanel.SetActive(false);
-            if (summaryPanel != null) summaryPanel.SetActive(false);
+            // Inicialización: Limpiamos el texto del dashboard para que no ponga "New Text"
+            if (dashboardObjectiveText != null) dashboardObjectiveText.text = "";
             
-            ActualizarTextoObjetivo();
+            if(summaryPanel) summaryPanel.SetActive(false);
+            if(reportPanelBase) reportPanelBase.SetActive(false);
+            if(detailsPanelTabla) detailsPanelTabla.SetActive(false);
+            if(pauseMenuPanel) pauseMenuPanel.SetActive(false);
         }
 
         private void Update()
         {
-            // Sincronización automática con la capa de datos (Core)
-            ActualizarTextoObjetivo();
-        }
-
-        private void ActualizarTextoObjetivo()
-        {
-            if (objectiveSO != null && objectiveText != null)
+            // Sincronización constante: el texto de la pantalla siempre refleja el valor del archivo SO
+            if (objectiveSO != null && dashboardObjectiveText != null)
             {
-                objectiveText.text = objectiveSO.Value;
+                dashboardObjectiveText.text = objectiveSO.Value;
             }
         }
 
-        #region Notificaciones Temporales
-        public void MostrarExitoManiobra(object data = null)
+        public void FinalizarSesion(object data = null)
         {
-            StopAllCoroutines();
-            StartCoroutine(NotificationRoutine("¡APARCAMIENTO CORRECTO!"));
-        }
-
-        private IEnumerator NotificationRoutine(string message)
-        {
-            if (notificationPanel == null) yield break;
-
-            notificationPanel.SetActive(true);
-            notificationText.text = message;
-            yield return new WaitForSeconds(messageDuration); 
-            notificationPanel.SetActive(false);
-        }
-        #endregion
-
-        #region Gestión de Estados de Fin de Sesión
-        public void MostrarPantallaFinal(object data = null)
-        {
-            summaryPanel.SetActive(true);
-            
-            // 1. Consultar el veredicto
-            bool aprobado = evaluator.EsApto();
-
-            // 2. Formatear el texto de resultados
-            string veredicto = aprobado ? "<color=green>APTO</color>" : "<color=red>NO APTO</color>";
-            
-            finalTitleText.text = $"RESULTADO: {veredicto}\n\n" +
-                                $"<size=60%>Faltas Eliminatorias: {evaluator.faltasEliminatorias}\n" +
-                                $"Faltas Deficientes: {evaluator.faltasDeficientes}\n" +
-                                $"Faltas Leves: {evaluator.faltasLeves}</size>";
-
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+
+            // Ocultamos el dashboard de objetivos al terminar
+            if (dashboardObjectiveText != null) dashboardObjectiveText.gameObject.SetActive(false);
+
+            if (evaluator.modoActual == ModoDeJuego.Maniobras)
+            {
+                summaryPanel.SetActive(true);
+            }
+            else
+            {
+                ConfigurarReporteBase();
+            }
         }
 
-        public void BotonReintentar()
+        private void ConfigurarReporteBase()
+        {
+            if (summaryPanel != null) summaryPanel.SetActive(false);
+            reportPanelBase.SetActive(true);
+            detailsPanelTabla.SetActive(false);
+
+            if (evaluator.modoActual == ModoDeJuego.PracticaUrbana)
+            {
+                titleStatusText.text = "PRÁCTICA FINALIZADA";
+                resultStatusText.text = "Sesión de entrenamiento completada"; 
+            }
+            else 
+            {
+                titleStatusText.text = "EXAMEN FINALIZADO";
+                string color = evaluator.EsApto() ? "green" : "red";
+                string texto = evaluator.EsApto() ? "APTO" : "NO APTO";
+                resultStatusText.text = $"RESULTADO: <color={color}>{texto}</color>";
+            }
+        }
+
+        public void AbrirTablaDetallada()
+        {
+            if (evaluator == null || detailsPanelTabla == null || reportHeader == null) return;
+
+            reportPanelBase.SetActive(false);
+            detailsPanelTabla.SetActive(true);
+
+            string resultadoTexto = "";
+            if (evaluator.modoActual == ModoDeJuego.ExamenUrbano)
+            {
+                string color = evaluator.EsApto() ? "green" : "red";
+                string calificacion = evaluator.EsApto() ? "APTO" : "NO APTO";
+                resultadoTexto = $"   RESULTADO: <color={color}><b>{calificacion}</b></color>";
+            }
+
+            reportHeader.text = $"FECHA: {System.DateTime.Now:dd/MM/yyyy}   HORA: {System.DateTime.Now:HH:mm}{resultadoTexto}";
+            tableBodyText.text = evaluator.ObtenerHistorialTabla();
+            totalInfraccionesText.text = $"NÚMERO DE FALTAS: {evaluator.ContarInfraccionesTotales()}";
+        }
+
+        public void VolverAlReporteBase()
+        {
+            detailsPanelTabla.SetActive(false);
+            reportPanelBase.SetActive(true);
+        }
+
+        public void IrAlMenuPrincipal()
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            Debug.Log("<color=cyan>SISTEMA:</color> Reiniciando sesión...");
+            SceneManager.LoadScene("0_Menu_Principal");
         }
-
-        public void BotonSalir()
-        {
-            Debug.Log("<color=red>SISTEMA:</color> Finalizando ejecución...");
-            #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-            #else
-                Application.Quit();
-            #endif
-        }
-        #endregion
     }
 }

@@ -1,9 +1,10 @@
 {
-    "name": "Simulador.Evaluation",
+    "name": "Simulador.AI",
     "rootNamespace": "",
     "references": [
         "GUID:88020364ec98ce542ba6398c62f2a2af",
-        "GUID:f2a99164bfd68b44985c706377b833a0"
+        "GUID:21d1eb854b91ade49bc69a263d12bee2",
+        "GUID:d8b63aba1907145bea998dd612889d6b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -4,27 +4,35 @@ namespace Simulador.Core
 {
     public class UrbanMissionManager : MonoBehaviour
     {
-        [Header("Configuración")]
+        [Header("Configuración de Perfil")]
         public UrbanMissionProfileSO perfilExamen;
         
         [Header("Canales de Salida (SOA)")]
         public StringVariable objectiveSO;
-        public Vector3Variable gpsTargetSO;
+        public Vector3Variable gpsTargetSO; 
+        public FloatVariable currentSpeedLimitSO; // Referencia para resetear a 0
         public GameEvent onFinalComplete;
 
-        private int taskIndex = -1;
+        [Header("Estado de la Misión")]
+        public int taskIndex = -1;
         private float taskTimer = 0;
         private bool isExamRunning = false;
 
         private void Awake()
         {
+            // Reset de seguridad al iniciar el Play
             if (gpsTargetSO != null) gpsTargetSO.Value = Vector3.zero;
+            if (objectiveSO != null) objectiveSO.Value = "";
+            if (currentSpeedLimitSO != null) currentSpeedLimitSO.Value = 0;
+
             taskIndex = -1;
             isExamRunning = false;
         }
 
         public void IniciarExamen(UrbanMissionProfileSO perfil)
         {
+            if (perfil == null || perfil.tareas.Count == 0) return;
+
             perfilExamen = perfil;
             taskIndex = 0;
             isExamRunning = true;
@@ -40,19 +48,9 @@ namespace Simulador.Core
             if (currentTask.tiempoMaximo > 0)
             {
                 taskTimer += Time.deltaTime;
-
                 if (currentTask.tipo == UrbanTaskType.ConduccionLibre)
                 {
                     if (taskTimer >= currentTask.tiempoMaximo) AvanzarTarea();
-                }
-                else if (currentTask.tipo == UrbanTaskType.Estacionamiento)
-                {
-                    if (taskTimer >= currentTask.tiempoMaximo)
-                    {
-                        // Si se acaba el tiempo de parking, podrías suspender al alumno
-                        Debug.Log("<color=red>TIEMPO AGOTADO</color>");
-                        TerminarExamen(); 
-                    }
                 }
             }
         }
@@ -69,27 +67,25 @@ namespace Simulador.Core
             taskTimer = 0;
             var currentTask = perfilExamen.tareas[taskIndex];
 
-            if (objectiveSO != null) objectiveSO.Value = currentTask.instruccion;
+            // Escribimos la instrucción en el archivo compartido
+            if (objectiveSO != null) 
+            {
+                objectiveSO.Value = currentTask.instruccion;
+            }
 
-            // --- LÓGICA DE GPS POR TAG ---
+            // Actualizamos destino GPS
             if (gpsTargetSO != null)
             {
                 if (!string.IsNullOrEmpty(currentTask.tagDestino))
                 {
-                    // Buscamos el objeto que tiene ese Tag en la escena
                     GameObject targetObj = GameObject.FindWithTag(currentTask.tagDestino);
-                    if (targetObj != null)
-                    {
-                        gpsTargetSO.Value = targetObj.transform.position;
-                    }
+                    if (targetObj != null) gpsTargetSO.Value = targetObj.transform.position;
+                    else gpsTargetSO.Value = Vector3.zero;
                 }
-                else
-                {
-                    gpsTargetSO.Value = Vector3.zero; // Apaga la flecha si no hay tag
-                }
+                else gpsTargetSO.Value = Vector3.zero;
             }
 
-            // Activación de contenedores (como ya lo tenías)
+            // Activación de Triggers por Tag
             if (!string.IsNullOrEmpty(currentTask.tagContenedor))
             {
                 GameObject group = GameObject.FindGameObjectWithTag(currentTask.tagContenedor);
@@ -101,6 +97,7 @@ namespace Simulador.Core
         {
             isExamRunning = false;
             if (gpsTargetSO != null) gpsTargetSO.Value = Vector3.zero;
+            if (objectiveSO != null) objectiveSO.Value = "PRÁCTICA FINALIZADA";
             if (onFinalComplete != null) onFinalComplete.Raise();
         }
     }

@@ -432,6 +432,7 @@ GameObject:
   - component: {fileID: 4581865437481967297}
   - component: {fileID: 4805032185252408316}
   - component: {fileID: 8584632871533215918}
+  - component: {fileID: 3109035262046227933}
   m_Layer: 0
   m_Name: Detention_Zone
   m_TagString: ValidStopZone
@@ -491,6 +492,28 @@ MonoBehaviour:
   onStopSuccessful: {fileID: 0}
   stopInfraction: {fileID: 11400000, guid: 4bbe1b912eb9f1f48af106c4332e6f62, type: 2}
   infractionEvent: {fileID: 11400000, guid: b8c4c553849233c448cad7d6f375d37d, type: 2}
+--- !u!114 &3109035262046227933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6542923301257533728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7d1946b7e631a469f6346ce783f652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.Evaluation::Simulador.Evaluation.StopPriorityEvaluator
+  currentSpeed: {fileID: 11400000, guid: 0bd0f38c67d88bf458c075e5c19f1b19, type: 2}
+  infractionEvent: {fileID: 11400000, guid: b8c4c553849233c448cad7d6f375d37d, type: 2}
+  stopRule: {fileID: 11400000, guid: 4bbe1b912eb9f1f48af106c4332e6f62, type: 2}
+  yieldRule: {fileID: 11400000, guid: 7f915ab4071eeef40b563a4f78294a6c, type: 2}
+  dangerZones:
+  - {fileID: 4622862467984816786}
+  - {fileID: 3995685737719158785}
+  trafficLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8427830634040660878
 GameObject:
   m_ObjectHideFlags: 0

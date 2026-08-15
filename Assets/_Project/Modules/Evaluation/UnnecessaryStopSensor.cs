@@ -51,21 +51,33 @@ namespace Simulador.Evaluation
 
         private void OnTriggerEnter(Collider other)
         {
-            // Comprobamos si el objeto que tocamos es una zona de parada legal
-            if (other.CompareTag("ValidStopZone") || other.CompareTag("Parking") || other.CompareTag("Parking Meta"))
+            // ORDEN DE PRIORIDAD (De la más permisiva a la más restrictiva)
+            
+            // 1. Prioridad Máxima: Zonas de Maniobra Final o Parking
+            // (Si estás aquí, siempre es legal parar para finalizar o maniobrar)
+            if (other.CompareTag("Parking Meta") || other.CompareTag("Parking"))
             {
                 zonesCount++;
-                // Debug.Log("Entrando en zona válida. Conteo actual: " + zonesCount);
+                // Debug.Log("Protección por zona de Estacionamiento activada.");
+                return; // Salimos de la función, ya hemos encontrado una zona válida
+            }
+
+            // 2. Prioridad Media: Zonas de Tráfico (STOP, Semáforo, Ceda el paso)
+            // (Esta zona puede ser 'ValidStopZone' o 'Untagged' dinámicamente)
+            if (other.CompareTag("ValidStopZone"))
+            {
+                zonesCount++;
+                // Debug.Log("Protección por señalización activa.");
+                return;
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            // Al salir, restamos uno al contador
-            if (other.CompareTag("ValidStopZone") || other.CompareTag("Parking") || other.CompareTag("Parking Meta"))
+            // Usamos la misma jerarquía para restar del contador
+            if (other.CompareTag("Parking Meta") || other.CompareTag("Parking") || other.CompareTag("ValidStopZone"))
             {
                 zonesCount = Mathf.Max(0, zonesCount - 1);
-                // Debug.Log("Saliendo de zona válida. Conteo actual: " + zonesCount);
             }
         }
     }

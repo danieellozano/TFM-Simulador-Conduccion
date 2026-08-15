@@ -9,6 +9,8 @@ namespace Simulador.InputModule
         public GameEvent restartEvent;
         private SimuladorInput controls;
 
+        public GameEvent pauseEvent;
+
         private void Awake()
         {
             controls = new SimuladorInput();
@@ -38,11 +40,15 @@ namespace Simulador.InputModule
             };
 
             controls.Driving.Handbrake.performed += ctx => {
-            if(inputData != null) {
-                inputData.Handbrake = !inputData.Handbrake; // Funciona como un interruptor (Toggle)
-                Debug.Log("Freno de mano: " + (inputData.Handbrake ? "PUESTO" : "QUITADO"));
-            }
-        };
+                if(inputData != null) {
+                    inputData.Handbrake = !inputData.Handbrake; // Funciona como un interruptor (Toggle)
+                    Debug.Log("Freno de mano: " + (inputData.Handbrake ? "PUESTO" : "QUITADO"));
+                }
+            };
+
+            controls.Driving.Pause.performed += ctx => {
+                if(pauseEvent != null) pauseEvent.Raise();
+            };
         }
 
         private void OnEnable() => controls?.Enable();

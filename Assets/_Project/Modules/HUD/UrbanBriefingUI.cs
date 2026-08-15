@@ -1,6 +1,7 @@
 using UnityEngine;
 using Simulador.Core;
 using UnityEngine.SceneManagement;
+using Simulador.Evaluation;
 
 namespace Simulador.HUD
 {
@@ -14,6 +15,8 @@ namespace Simulador.HUD
         public UrbanMissionProfileSO perfilExamen;
         public UrbanMissionProfileSO perfilLibre;
 
+        public DGTEvaluator dgtEvaluator; 
+
         private void Awake()
         {
             // Bloqueo inicial
@@ -24,8 +27,19 @@ namespace Simulador.HUD
         }
 
         // Estas funciones se asignan a los botones físicos
-        public void SeleccionarExamen() { Empezar(perfilExamen); }
-        public void SeleccionarLibre() { Empezar(perfilLibre); }
+        public void SeleccionarExamen() 
+        { 
+            // 1. CAMBIAMOS EL MODO ANTES DE EMPEZAR
+            if (dgtEvaluator != null) dgtEvaluator.modoActual = ModoDeJuego.ExamenUrbano;
+            Empezar(perfilExamen); 
+        }
+
+        public void SeleccionarLibre() 
+        { 
+            // 1. CAMBIAMOS EL MODO ANTES DE EMPEZAR
+            if (dgtEvaluator != null) dgtEvaluator.modoActual = ModoDeJuego.PracticaUrbana;
+            Empezar(perfilLibre); 
+        }
 
         private void Empezar(UrbanMissionProfileSO perfil)
         {

@@ -172,6 +172,15 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""68dce150-3a4a-4ef0-8223-805ee38645f1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -317,6 +326,17 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
                     ""action"": ""Handbrake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6097a575-3f4b-4bec-a73f-c5c4efe1518a"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -334,6 +354,7 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
         m_Driving_Restart = m_Driving.FindAction("Restart", throwIfNotFound: true);
         m_Driving_Blinkers = m_Driving.FindAction("Blinkers", throwIfNotFound: true);
         m_Driving_Handbrake = m_Driving.FindAction("Handbrake", throwIfNotFound: true);
+        m_Driving_Pause = m_Driving.FindAction("Pause", throwIfNotFound: true);
     }
 
     ~@SimuladorInput()
@@ -423,6 +444,7 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Driving_Restart;
     private readonly InputAction m_Driving_Blinkers;
     private readonly InputAction m_Driving_Handbrake;
+    private readonly InputAction m_Driving_Pause;
     /// <summary>
     /// Provides access to input actions defined in input action map "Driving".
     /// </summary>
@@ -470,6 +492,10 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Driving/Handbrake".
         /// </summary>
         public InputAction @Handbrake => m_Wrapper.m_Driving_Handbrake;
+        /// <summary>
+        /// Provides access to the underlying input action "Driving/Pause".
+        /// </summary>
+        public InputAction @Pause => m_Wrapper.m_Driving_Pause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -523,6 +549,9 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
             @Handbrake.started += instance.OnHandbrake;
             @Handbrake.performed += instance.OnHandbrake;
             @Handbrake.canceled += instance.OnHandbrake;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         /// <summary>
@@ -561,6 +590,9 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
             @Handbrake.started -= instance.OnHandbrake;
             @Handbrake.performed -= instance.OnHandbrake;
             @Handbrake.canceled -= instance.OnHandbrake;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         /// <summary>
@@ -664,5 +696,12 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHandbrake(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPause(InputAction.CallbackContext context);
     }
 }
