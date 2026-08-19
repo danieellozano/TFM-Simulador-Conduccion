@@ -3633,7 +3633,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1460781013}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.74745136
+  m_Size: 0.6080807
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5447,15 +5447,19 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\nCONTROL LONGITUDINAL (Pedales)\r\n<color=#FFFF00><b>[ W ]</b></color>
     : Acelerar (Throttle)\r\n<color=#FFFF00><b>[ S ]</b></color> : Frenar (Brake)\r\n<color=#FFFF00><b>[
-    Shift Izq ]</b></color> : Pedal de Embrague (Clutch)\n\n\r\nCONTROL LATERAL (Direcci\xF3n)\r\n<color=#FFFF00><b>[
-    A ] / [ D ]</b></color> : Girar Volante (Steering)\r\nTRANSMISI\xD3N MANUAL\r\n<color=#FFFF00><b>[
-    E ]</b></color> : Subir Marcha (Gear Up)\r\n<color=#FFFF00><b>[ Q ]</b></color>
-    : Bajar Marcha (Gear Down)\n<color=#FFFF00><b>[ ESPACIO ]</b></color> : Activar/Desacttivar
+    Shift Izq ]</b></color> : Pedal de Embrague (Clutch)\r\n\r\n\r\nCONTROL LATERAL
+    (Direcci\xF3n)\r\n<color=#FFFF00><b>[ A ] / [ D ]</b></color> : Girar Volante
+    (Steering)\r\n\r\n\r\nTRANSMISI\xD3N MANUAL\r\n<color=#FFFF00><b>[ E ]</b></color>
+    : Subir Marcha (Gear Up)\r\n<color=#FFFF00><b>[ Q ]</b></color> : Bajar Marcha
+    (Gear Down)\r\n<color=#FFFF00><b>[ ESPACIO ]</b></color> : Activar/Desactivar
     Freno de Mano (Handbrake On/Off)\r\nNota: Es obligatorio pisar el embrague para
-    cambiar de marcha.\n\n\r\nSISTEMAS AUXILIARES\r\n<color=#FFFF00><b>[ R ]</b></color>
-    : Arrancar Motor (En caso de calado)\r\n<color=#FFFF00><b>[ Z ]</b></color> :
-    Intermitente Izquierdo\r\n<color=#FFFF00><b>[ X ]</b></color> : Intermitente
-    Derecho\n\n\r\nINTERFAZ\r\n<color=#FFFF00><b>[ Esc ]</b></color> : Pausa / Salir\n"
+    cambiar de marcha.\r\n\r\n\r\nSISTEMAS AUXILIARES\r\n<color=#FFFF00><b>[ R ]</b></color>
+    : Arrancar Motor \r\n<color=#FFFF00><b>[ Z ]</b></color> : Intermitente Izquierdo\r\n<color=#FFFF00><b>[
+    X ]</b></color> : Intermitente Derecho\r\n\r\n\r\nCONTROL DE VISIBILIDAD (C\xE1mara)\r\n<color=#FFFF00><b>[
+    FLECHA IZQUIERDA ]</b></color> : Mirar a la Izquierda (Giro lateral)\r\n<color=#FFFF00><b>[
+    FLECHA DERECHA ]</b></color> : Mirar a la Derecha (Giro lateral)\r\n<color=#FFFF00><b>[
+    FLECHA ARRIBA ]</b></color> : Restablecer Vista al Frente\r\n\r\n\r\nINTERFAZ\r\n<color=#FFFF00><b>[
+    Esc ]</b></color> : Pausa / Salir\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

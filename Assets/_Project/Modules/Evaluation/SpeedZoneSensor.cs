@@ -3,60 +3,26 @@ using Simulador.Core;
 
 namespace Simulador.Evaluation
 {
+    // Este script ahora solo funciona como una señal de tráfico que inyecta el nuevo límite al sistema
     public class SpeedZoneSensor : MonoBehaviour
     {
-        [Header("Configuración del Tramo")]
-        public float speedLimit = 30f; // El límite de esta calle específica
-        public InfraccionSO speedInfraction; // Arrastra VEL_GEN (Leve) o VEL_MAX (Eliminatoria)
+        [Header("Configuración del Hito / Señal")]
+        public float speedLimit = 30f; // El nuevo límite que se activa al pasar por este punto
 
         [Header("Referencias")]
-        public FloatVariable vehicleSpeedSO; // CurrentSpeed.asset
         public FloatVariable currentLimitSO; // CurrentSpeedLimit.asset
-        public GameEvent infractionEvent;    // OnInfractionDetected.asset
-
-        private bool isVehicleInside = false;
-        private bool infractionAlreadySent = false;
-
-        private void Update()
-        {
-            if (isVehicleInside)
-            {
-                // Si la velocidad del coche supera el límite del tramo
-                if (vehicleSpeedSO.Value > speedLimit + 2f) // Margen de 2km/h
-                {
-                    if (!infractionAlreadySent)
-                    {
-                        infractionEvent.Raise(speedInfraction);
-                        infractionAlreadySent = true; 
-                        Debug.Log($"<color=red>DGT: Exceso de velocidad en zona {speedLimit}</color>");
-                    }
-                }
-                else
-                {
-                    // Si vuelve a bajar del límite, permitimos detectar otra vez 
-                    // (Opcional, según lo estricto que quieras ser)
-                    infractionAlreadySent = false; 
-                }
-            }
-        }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                isVehicleInside = true;
-                infractionAlreadySent = false;
-                
-                // Actualizamos el límite global para que el HUD/Evaluador lo sepan
-                if (currentLimitSO != null) currentLimitSO.Value = speedLimit;
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                isVehicleInside = false;
+                // Al cruzar la línea de la señal, actualizamos el límite global de forma permanente.
+                // Este valor persistirá en el HUD y en el SpeedEvaluator hasta que crucemos otra señal.
+                if (currentLimitSO != null)
+                {
+                    currentLimitSO.Value = speedLimit;
+                    Debug.Log($"<color=yellow>DGT [Señal]:</color> Límite de velocidad del examen actualizado a {speedLimit} Km/h.");
+                }
             }
         }
     }

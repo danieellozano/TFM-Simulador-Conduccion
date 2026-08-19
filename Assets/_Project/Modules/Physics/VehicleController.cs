@@ -11,16 +11,17 @@ namespace Simulador.PhysicsModule
         public FloatVariable currentSpeedVariable;
         public IntVariable currentGearVariable;
         public FloatVariable currentSpeedLimitVariable;
-        public BoolVariable isStalledSO; // <--- NUEVO: Canal para informar si el motor está calado
+        public BoolVariable isStalledSO; 
+        public BoolVariable isAutomaticSO;
 
         [Header("Física y Potencia")]
         public float motorForce = 350f; 
-        public float brakeForce = 15000f;
-        public float maxSteerAngle = 45f;
+        public float brakeForce = 8000;
+        public float maxSteerAngle = 33f;
         public float engineBrakeForce = 600f; 
 
         [Header("Transmisión Manual")]
-        public float[] gearRatios = { -7.0f, 0f, 8.2f, 4.5f, 2.8f, 1.8f, 1.3f }; 
+        public float[] gearRatios = { -3.4f, 0f, 3.5f, 1.9f, 1.3f, 0.95f, 0.78f }; 
         public bool isStalled = false;
         private float stallProtectionTimer = 0f;
 
@@ -55,15 +56,21 @@ namespace Simulador.PhysicsModule
         public float currentRPM;
         public float finalDriveRatio = 4.1f; 
 
+        [Header("Ajustes de Caja Automática")]
+        [Tooltip("RPM a las que el coche subirá de marcha (Calibrado a 4200 para estirar marchas).")]
+        public float upshiftRPM = 4200f;
+        [Tooltip("RPM a las que el coche bajará de marcha (Calibrado a 1800).")]
+        public float downshiftRPM = 1800f;
+
         private Rigidbody rb;
 
         private void Awake() {
             rb = GetComponent<Rigidbody>();
             rb.centerOfMass = new Vector3(0f, -0.5f, 0.1f);
             
-            // Inicialización de estado
+            // AJUSTE 2: Todos los modos (Manual y Automático) inician con el motor apagado (isStalled = true)
             isStalled = true;
-            if (isStalledSO != null) isStalledSO.Value = true; // Sincronizamos con la capa de datos
+            if (isStalledSO != null) isStalledSO.Value = isStalled; // Sincronizamos con la capa de datos
 
             if (inputData != null) inputData.ResetData();
             if (currentSpeedVariable != null) currentSpeedVariable.Value = 0;
@@ -73,6 +80,12 @@ namespace Simulador.PhysicsModule
         private void FixedUpdate() {
             if (inputData == null) return;
             if (stallProtectionTimer > 0) stallProtectionTimer -= Time.fixedDeltaTime;
+
+            // Lógica de transmisión automática
+            if (isAutomaticSO != null && isAutomaticSO.Value)
+            {
+                GestionarCajaAutomatica();
+            }
 
             HandleSteering();
             HandleMotor();
@@ -114,7 +127,7 @@ namespace Simulador.PhysicsModule
         {
             if (isStalled) { StopMotor(); currentRPM = 0; return; }
 
-            // 1. CÁLCULO DE RPM ESTABLE (Igual que antes)
+            // 1. CÁLCULO DE RPM ESTABLE
             float speedMS = rb.linearVelocity.magnitude;
             float wheelRadius = frontLeftWheel.radius;
             float wheelCircumference = 2 * Mathf.PI * wheelRadius;
@@ -132,7 +145,7 @@ namespace Simulador.PhysicsModule
             
             currentRPM = Mathf.Lerp(currentRPM, Mathf.Max(targetRPM, minRPM), Time.fixedDeltaTime * 12f);
 
-            // 2. GOBERNADOR MECÁNICO (Igual que antes)
+            // 2. GOBERNADOR MECÁNICO
             float torqueFactor = 1.0f;
             float engineResistanceBrake = 0f;
 
@@ -147,32 +160,25 @@ namespace Simulador.PhysicsModule
             }
 
             // --- 3. LÓGICA DE FRENO DE MANO ---
-            // Aplicamos una fuerza masiva a las ruedas traseras si el freno de mano está puesto.
-            // Usamos el doble de brakeForce para asegurar bloqueo total.
             float handbrakeTorque = inputData.Handbrake ? brakeForce * 2f : 0f;
 
             // --- 4. ENTREGA DE PAR ---
             float transmission = 1.0f - inputData.Clutch;
             float wheelTorque = inputData.Throttle * motorForce * currentGearRatio * finalDriveRatio * transmission * torqueFactor;
 
-            // Si el freno de mano está puesto, el motor no transmite fuerza a las ruedas
             if (inputData.Handbrake) wheelTorque = 0;
 
             rearLeftWheel.motorTorque = wheelTorque;
             rearRightWheel.motorTorque = wheelTorque;
 
             // --- 5. SISTEMA DE FRENADO DISTRIBUIDO ---
-            // Pedal de freno (S) afecta a las 4 ruedas
             float pedalBrake = inputData.Breaking * brakeForce;
 
-            // Eje Delantero: Pedal + Resistencia por exceso de RPM
             frontLeftWheel.brakeTorque = pedalBrake + engineResistanceBrake;
             frontRightWheel.brakeTorque = pedalBrake + engineResistanceBrake;
 
-            // Eje Trasero: Pedal + Freno de Mano + Freno Motor + Resistencia exceso RPM
             float totalRearBrake = pedalBrake + handbrakeTorque + engineResistanceBrake;
 
-            // Añadimos el freno motor estándar (cuando no se acelera)
             if (inputData.Throttle < 0.1f && currentGearRatio != 0)
             {
                 totalRearBrake += engineBrakeForce * Mathf.Abs(currentGearRatio);
@@ -185,20 +191,35 @@ namespace Simulador.PhysicsModule
         }
 
         private void CheckForStall() {
+            // Si la transmisión es automática, el motor nunca se cala por bajo régimen
+            if (isAutomaticSO != null && isAutomaticSO.Value) return;
+
             if (isStalled || inputData.CurrentGear == 0 || stallProtectionTimer > 0) return;
             
             if (rb.linearVelocity.magnitude < 0.5f && inputData.Clutch < 0.2f && inputData.Throttle < 0.1f) {
                 isStalled = true;
-                if (isStalledSO != null) isStalledSO.Value = true; // Informar a la capa de datos
+                if (isStalledSO != null) isStalledSO.Value = true; 
                 if(infractionEvent != null) infractionEvent.Raise(caladoInfraccion);
                 Debug.Log("<color=orange>MOTOR CALADO</color>");
             }
         }
 
         public void RestartEngine(object data = null) {
-            if (inputData.CurrentGear == 0 || inputData.Clutch > 0.7f) {
+            bool canRestart = false;
+
+            // En modo automático el coche se enciende únicamente en Neutro (marcha 0)
+            if (isAutomaticSO != null && isAutomaticSO.Value)
+            {
+                canRestart = (inputData.CurrentGear == 0);
+            }
+            else
+            {
+                canRestart = (inputData.CurrentGear == 0 || inputData.Clutch > 0.7f);
+            }
+
+            if (canRestart) {
                 isStalled = false;
-                if (isStalledSO != null) isStalledSO.Value = false; // Informar a la capa de datos
+                if (isStalledSO != null) isStalledSO.Value = false; 
                 stallProtectionTimer = 2f; 
                 Debug.Log("<color=green>MOTOR ARRANCADO</color>");
             }
@@ -236,6 +257,34 @@ namespace Simulador.PhysicsModule
             rearLeftWheel.motorTorque = 0;
             rearRightWheel.motorTorque = 0;
             ApplyBrake(brakeForce * 0.1f);
+        }
+
+        // --- SISTEMA INTERNO DE CAJA AUTOMÁTICA ---
+        private void GestionarCajaAutomatica()
+        {
+            // 1. AJUSTE: El embrague se fuerza a 0f (totalmente acoplado) para la entrega de par
+            inputData.Clutch = 0f;
+
+            // 2. AJUSTE: Eliminada la línea de auto-arranque. El motor permanecerá apagado hasta 
+            // que el alumno presione 'R' estando en Neutro (0).
+
+            // 3. Algoritmo secuencial de marchas según el régimen de giro (RPM) para marchas de avance (Drive)
+            // Se han calibrado las constantes para estirar marchas de forma realista y evitar 5ª a baja velocidad.
+            if (inputData.CurrentGear > 0)
+            {
+                // Si el motor excede las 4200 RPM, sube la marcha
+                if (currentRPM > upshiftRPM && inputData.CurrentGear < 5)
+                {
+                    inputData.CurrentGear++;
+                    Debug.Log($"<color=green>Caja Automática:</color> Subiendo a marcha {inputData.CurrentGear}");
+                }
+                // Si el motor cae por debajo de las 1800 RPM, reduce la marcha
+                else if (currentRPM < downshiftRPM && inputData.CurrentGear > 1)
+                {
+                    inputData.CurrentGear--;
+                    Debug.Log($"<color=green>Caja Automática:</color> Bajando a marcha {inputData.CurrentGear}");
+                }
+            }
         }
     }
 }

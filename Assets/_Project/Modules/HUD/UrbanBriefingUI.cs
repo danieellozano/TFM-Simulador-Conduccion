@@ -7,7 +7,11 @@ namespace Simulador.HUD
 {
     public class UrbanBriefingUI : MonoBehaviour
     {
+        [Header("Referencias de UI")]
         public GameObject urbanBriefingPanel;
+        public SelectorTransmisionUI transmissionSelector;
+
+        [Header("Referencias de Sistemas")]
         public UrbanMissionManager urbanManager;
         public GameObject inputManager;
 
@@ -17,35 +21,72 @@ namespace Simulador.HUD
 
         public DGTEvaluator dgtEvaluator; 
 
+        private UrbanMissionProfileSO perfilSeleccionado;
+
         private void Awake()
         {
-            // Bloqueo inicial
             Time.timeScale = 0f;
             if (inputManager != null) inputManager.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
 
-        // Estas funciones se asignan a los botones físicos
+        private void Start()
+        {
+            // NUEVO: Suscripción al evento
+            if (transmissionSelector != null)
+            {
+                transmissionSelector.OnTransmissionSelected += AlConfirmarTransmision;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            // NUEVO: Desuscripción
+            if (transmissionSelector != null)
+            {
+                transmissionSelector.OnTransmissionSelected -= AlConfirmarTransmision;
+            }
+        }
+
         public void SeleccionarExamen() 
         { 
-            // 1. CAMBIAMOS EL MODO ANTES DE EMPEZAR
             if (dgtEvaluator != null) dgtEvaluator.modoActual = ModoDeJuego.ExamenUrbano;
-            Empezar(perfilExamen); 
+            PrepararInicio(perfilExamen); 
         }
 
         public void SeleccionarLibre() 
         { 
-            // 1. CAMBIAMOS EL MODO ANTES DE EMPEZAR
             if (dgtEvaluator != null) dgtEvaluator.modoActual = ModoDeJuego.PracticaUrbana;
-            Empezar(perfilLibre); 
+            PrepararInicio(perfilLibre); 
+        }
+
+        private void PrepararInicio(UrbanMissionProfileSO perfil)
+        {
+            perfilSeleccionado = perfil;
+
+            if (urbanBriefingPanel != null) urbanBriefingPanel.SetActive(false);
+
+            // Abrimos el selector de transmisión independiente
+            if (transmissionSelector != null)
+            {
+                transmissionSelector.MostrarSelector();
+            }
+            else
+            {
+                Empezar(perfilSeleccionado);
+            }
+        }
+
+        private void AlConfirmarTransmision()
+        {
+            Empezar(perfilSeleccionado);
         }
 
         private void Empezar(UrbanMissionProfileSO perfil)
         {
             if (urbanManager == null) { Debug.LogError("Falta asignar el Urban_Manager en el HUD_Manager"); return; }
 
-            if (urbanBriefingPanel != null) urbanBriefingPanel.SetActive(false);
             if (inputManager != null) inputManager.SetActive(true);
             
             Time.timeScale = 1f; 
@@ -57,8 +98,8 @@ namespace Simulador.HUD
 
         public void VolverAlMenu()
         {
-            Time.timeScale = 1f; // Resetear el tiempo siempre antes de cambiar de escena
-            SceneManager.LoadScene("0_Menu_Principal"); // Asegúrate de que el nombre sea exacto
+            Time.timeScale = 1f; 
+            SceneManager.LoadScene("0_Menu_Principal"); 
         }
     }
 }

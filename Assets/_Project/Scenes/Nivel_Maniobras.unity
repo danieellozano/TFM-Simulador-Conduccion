@@ -33782,6 +33782,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 173886063020021952, guid: caec94445b1ede841808db33aba48f30, type: 3}
+      propertyPath: m_text
+      value: "<b>Objetivo de la sesi\xF3n:</b>\r\nEsta unidad did\xE1ctica tiene
+        como objetivo la toma de contacto con los controles del veh\xEDculo y el
+        desarrollo de la coordinaci\xF3n psicomotriz en un entorno controlado de
+        circuito cerrado. En esta fase no se aplicar\xE1n sanciones, permitiendo
+        la libre experimentaci\xF3n con la f\xEDsica del coche.\r\n<color=#FFFFFF>-----------------------------------------------------------</color>\r\n<color=#00FFFF><b>1.
+        GU\xCDA R\xC1PIDA DE MANDOS:</b></color>\r\n\u2022 <b>[W][A][S][D]:</b> Control
+        principal del veh\xEDculo.\r\n\u2022 <b>[Shift Izq]:</b> Embrague (Obligatorio
+        en modo manual; inactivo en autom\xE1tico).\r\n\u2022 <b>[Q] / [E]:</b> Bajar
+        / Subir Marcha (En autom\xE1tico controla Reversa [R], Neutro [N] y Drive
+        [D]).\r\n\u2022 <b>[Z] / [X]:</b> Intermitente Izquierdo / Derecho.\r\n\u2022
+        <b>[ R ]:</b> Arrancar motor (En caso de calado en Neutro [N] o con embrague).\r\n\u2022
+        <b>[Flechas \u2190 / \u2192]:</b> Rotar la mirada lateral en cruces e intersecciones.\r\n\u2022
+        <b>[Flecha \u2191]:</b> Centrar la mirada de la cabina al frente.\r\n<color=#FFFFFF>-----------------------------------------------------------</color>\r\n<color=#00FF00><b>2.
+        ITINERARIO DE LA PRUEBA:</b></color>\r\nPara completar el circuito, deber\xE1s
+        seguir los indicadores verdes resaltados en el suelo, los cuales se activar\xE1n
+        secuencialmente a medida que superes cada hito:\r\n\u2022 <b>Arranque y Progresi\xF3n:</b>
+        Inicia la marcha y dir\xEDgete hacia la primera \xE1rea marcada.\r\n\u2022
+        <b>Detenci\xF3n de Precisi\xF3n:</b> Det\xE9n el veh\xEDculo completamente
+        <b>(0 Km/h)</b> dentro del recuadro verde de la se\xF1al de STOP. Una vez
+        validado, se activar\xE1 el siguiente marcador.\r\n\u2022 <b>Control de Giro
+        (Eslalon):</b> Supera el circuito de obst\xE1culos esquivando los hitos sin
+        realizar contacto f\xEDsico con las balizas.\r\n\u2022 <b>Maniobras de Estacionamiento:</b>\r\n 
+        - <i>En L\xEDnea:</i> Estaciona el veh\xEDculo en la zona delimitada en verde
+        entre los dos veh\xEDculos de referencia.\r\n  - <i>En Bater\xEDa (META):</i>
+        Realiza un estacionamiento en bater\xEDa final en el \xE1rea verde para concluir
+        la sesi\xF3n.\r\n<color=#FFFFFF>-----------------------------------------------------------</color>\r\n<b>3.
+        CONSEJOS PEDAG\xD3GICOS:</b>\r\n\u2022 <b>Gu\xEDa Visual:</b> Presta atenci\xF3n
+        al mensaje de objetivo en pantalla; solo se mostrar\xE1 el marcador activo
+        correspondiente a tu tarea actual.\r\n\u2022 <b>Retrovisi\xF3n:</b> Utiliza
+        los retrovisores digitales del HUD para calcular las distancias laterales
+        al entrar en las zonas verdes de aparcamiento.\r\n\u2022 <b>Arrancar el Motor:</b>
+        Si el motor se detiene (Calado), vuelve a poner punto muerto (N) o pisa el
+        embrague antes de pulsar <b>[ R ]</b>.\r\n\u2022 <b>Eficiencia:</b> Observa
+        el indicador de RPM para realizar los cambios de marcha de forma eficiente
+        (recomendado entre 2000 y 3000 RPM).\r\n<color=#FFFFFF>-----------------------------------------------------------</color>\r\n<b>Presiona
+        Comenzar para configurar la transmisi\xF3n y comenzar el circuito.</b>"
+      objectReference: {fileID: 0}
     - target: {fileID: 727612388090912913, guid: caec94445b1ede841808db33aba48f30, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -33848,7 +33887,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1800136191271368083, guid: caec94445b1ede841808db33aba48f30, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -890.41
+      value: -911.11
       objectReference: {fileID: 0}
     - target: {fileID: 1835755014854932469, guid: caec94445b1ede841808db33aba48f30, type: 3}
       propertyPath: m_SizeDelta.x
@@ -43083,10 +43122,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Simulador.Evaluation::Simulador.Evaluation.ParkingZone
   isFinalGoal: 1
-  timeToConfirm: 2
+  requiredBlinkerSide: 0
+  waitTimeBeforePenalty: 5
+  aiCourtesyBlocker: {fileID: 0}
+  inputData: {fileID: 0}
   vehicleSpeed: {fileID: 11400000, guid: 0bd0f38c67d88bf458c075e5c19f1b19, type: 2}
-  onMissionComplete: {fileID: 11400000, guid: 18853cabcdbd1cf4b991c1735ffee52d, type: 2}
   onManiobraSuccess: {fileID: 11400000, guid: 2afe338510d8a77428bd6c81c927c03a, type: 2}
+  onMissionComplete: {fileID: 11400000, guid: 18853cabcdbd1cf4b991c1735ffee52d, type: 2}
+  infractionEvent: {fileID: 0}
+  blinkerInfraction: {fileID: 0}
+  noHandbrakeInfraction: {fileID: 0}
+  ruleEliminatoria: {fileID: 0}
 --- !u!1001 &1656363936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43886,10 +43932,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Simulador.Evaluation::Simulador.Evaluation.ParkingZone
   isFinalGoal: 0
-  timeToConfirm: 2
+  requiredBlinkerSide: 0
+  waitTimeBeforePenalty: 5
+  aiCourtesyBlocker: {fileID: 0}
+  inputData: {fileID: 0}
   vehicleSpeed: {fileID: 11400000, guid: 0bd0f38c67d88bf458c075e5c19f1b19, type: 2}
-  onMissionComplete: {fileID: 0}
   onManiobraSuccess: {fileID: 11400000, guid: 2afe338510d8a77428bd6c81c927c03a, type: 2}
+  onMissionComplete: {fileID: 0}
+  infractionEvent: {fileID: 0}
+  blinkerInfraction: {fileID: 0}
+  noHandbrakeInfraction: {fileID: 0}
+  ruleEliminatoria: {fileID: 0}
 --- !u!1 &1680682631 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6251666189375065463, guid: d4f40363aa44ea649ac792f348b8c36a, type: 3}

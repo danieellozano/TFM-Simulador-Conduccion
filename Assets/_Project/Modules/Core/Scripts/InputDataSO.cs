@@ -13,6 +13,8 @@ namespace Simulador.Core
         public int CurrentGear; // -1 Reversa, 0 Neutral, 1-5 Marchas
         public int ActiveBlinker; // -1 Izq, 0 Off, 1 Der
         public bool Handbrake; // Freno de mano (0 suelto, 1 pisado)
+        public float Look;       // Almacenará el valor (-1, 0, 1) para mirar a los lados
+        public bool LookReset;   // Almacenará si se solicitó centrar la vista
 
         public void ResetData()
         {
@@ -23,6 +25,8 @@ namespace Simulador.Core
             CurrentGear = 0;
             ActiveBlinker = 0;
             Handbrake = true;
+            Look = 0;
+            LookReset = false;
         }
     }
 }

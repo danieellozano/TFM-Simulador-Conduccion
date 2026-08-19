@@ -181,6 +181,24 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""a2700bb4-f606-4b5b-9c9d-5e99bb4b8978"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LookReset"",
+                    ""type"": ""Button"",
+                    ""id"": ""75791cdd-fab8-485c-9968-67ae8d514eff"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -337,6 +355,50 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""322858f6-ff54-44b6-b464-848e05eac1b9"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""1cbac0d0-952c-492f-9c89-beb22bfeaad2"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""60bad401-5c82-483f-b20a-9ebce3aed608"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5f7a24c-6a46-45fd-93d5-c5722530d71e"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookReset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -355,6 +417,8 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
         m_Driving_Blinkers = m_Driving.FindAction("Blinkers", throwIfNotFound: true);
         m_Driving_Handbrake = m_Driving.FindAction("Handbrake", throwIfNotFound: true);
         m_Driving_Pause = m_Driving.FindAction("Pause", throwIfNotFound: true);
+        m_Driving_Look = m_Driving.FindAction("Look", throwIfNotFound: true);
+        m_Driving_LookReset = m_Driving.FindAction("LookReset", throwIfNotFound: true);
     }
 
     ~@SimuladorInput()
@@ -445,6 +509,8 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Driving_Blinkers;
     private readonly InputAction m_Driving_Handbrake;
     private readonly InputAction m_Driving_Pause;
+    private readonly InputAction m_Driving_Look;
+    private readonly InputAction m_Driving_LookReset;
     /// <summary>
     /// Provides access to input actions defined in input action map "Driving".
     /// </summary>
@@ -496,6 +562,14 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Driving/Pause".
         /// </summary>
         public InputAction @Pause => m_Wrapper.m_Driving_Pause;
+        /// <summary>
+        /// Provides access to the underlying input action "Driving/Look".
+        /// </summary>
+        public InputAction @Look => m_Wrapper.m_Driving_Look;
+        /// <summary>
+        /// Provides access to the underlying input action "Driving/LookReset".
+        /// </summary>
+        public InputAction @LookReset => m_Wrapper.m_Driving_LookReset;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -552,6 +626,12 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
+            @LookReset.started += instance.OnLookReset;
+            @LookReset.performed += instance.OnLookReset;
+            @LookReset.canceled += instance.OnLookReset;
         }
 
         /// <summary>
@@ -593,6 +673,12 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
+            @LookReset.started -= instance.OnLookReset;
+            @LookReset.performed -= instance.OnLookReset;
+            @LookReset.canceled -= instance.OnLookReset;
         }
 
         /// <summary>
@@ -703,5 +789,19 @@ public partial class @SimuladorInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLook(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LookReset" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLookReset(InputAction.CallbackContext context);
     }
 }

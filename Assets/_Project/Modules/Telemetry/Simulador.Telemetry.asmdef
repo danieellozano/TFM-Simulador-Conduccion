@@ -1,0 +1,17 @@
+{
+    "name": "Simulador.Telemetry",
+    "rootNamespace": "",
+    "references": [
+        "GUID:773824b6998a123458c7273297d8a31a",
+        "GUID:88020364ec98ce542ba6398c62f2a2af"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
