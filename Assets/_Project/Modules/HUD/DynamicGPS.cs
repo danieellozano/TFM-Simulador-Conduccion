@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.AI; // Imprescindible para el NavMesh
+using UnityEngine.AI; 
 using Simulador.Core;
 
 namespace Simulador.HUD

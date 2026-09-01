@@ -47,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Simulador.InputModule.InputReader
   inputData: {fileID: 11400000, guid: ecc662eaada989742917e831b6e7cb15, type: 2}
   restartEvent: {fileID: 11400000, guid: 23b36b2779f2de141a53672f1d1b39a9, type: 2}
+  pauseEvent: {fileID: 11400000, guid: b2a32599360144e4ebe1f1ffebab585d, type: 2}
+  isAutomaticSO: {fileID: 11400000, guid: 56c38866b64158246828f44eb45f15f6, type: 2}
 --- !u!114 &5950040867514957296
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,130 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3115239993901554454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6556795018519878743}
+  - component: {fileID: 59520139280388455}
+  m_Layer: 7
+  m_Name: Aparcamiento_Linea
+  m_TagString: Group_Parking_Linea
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &6556795018519878743
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3115239993901554454}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 9203485191417245373}
+  - {fileID: 8210764577947610583}
+  m_Father: {fileID: 514535992370347848}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &59520139280388455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3115239993901554454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8bd6fff5657a824b8076bbd989053a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.Evaluation::Simulador.Evaluation.ParkingZone
+  isFinalGoal: 0
+  requiredBlinkerSide: 1
+  waitTimeBeforePenalty: 5
+  aiCourtesyBlocker: {fileID: 0}
+  inputData: {fileID: 11400000, guid: ecc662eaada989742917e831b6e7cb15, type: 2}
+  vehicleSpeed: {fileID: 11400000, guid: 0bd0f38c67d88bf458c075e5c19f1b19, type: 2}
+  onManiobraSuccess: {fileID: 11400000, guid: 2afe338510d8a77428bd6c81c927c03a, type: 2}
+  onMissionComplete: {fileID: 0}
+  infractionEvent: {fileID: 11400000, guid: b8c4c553849233c448cad7d6f375d37d, type: 2}
+  blinkerInfraction: {fileID: 11400000, guid: b5b1d1a87fb3e4c4082e36341b3adf19, type: 2}
+  noHandbrakeInfraction: {fileID: 11400000, guid: 22849feb138f159489721123c5db5c7f, type: 2}
+  ruleEliminatoria: {fileID: 11400000, guid: 927bcb799659deb408658464c34ecff5, type: 2}
+--- !u!1 &7251849773741852403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8210764577947610583}
+  - component: {fileID: 7764211626141323267}
+  - component: {fileID: 287086572581530058}
+  m_Layer: 7
+  m_Name: Zona_Aparcamiento
+  m_TagString: Parking
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &8210764577947610583
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7251849773741852403}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6556795018519878743}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7764211626141323267
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7251849773741852403}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.501953, y: 1, z: 31.668945}
+  m_Center: {x: -11.186523, y: 0, z: 0.17114258}
+--- !u!114 &287086572581530058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7251849773741852403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51bd13d87fa032f4e89de84a3784d70a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.Evaluation::SpotTrigger
+  parentScript: {fileID: 59520139280388455}
 --- !u!1 &7443505830191480981
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,12 +136,13 @@ GameObject:
   - component: {fileID: 514535992370347848}
   - component: {fileID: 5441790034305316537}
   - component: {fileID: 5314897045671879099}
-  m_Layer: 0
+  - component: {fileID: 1491990711193971471}
+  m_Layer: 7
   m_Name: ROAD_APARCAMIENTO
-  m_TagString: Untagged
+  m_TagString: Group_Parking_Linea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &514535992370347848
 Transform:
@@ -26,11 +152,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7443505830191480981}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1026, y: -0.00000014628745, z: -2294}
   m_LocalScale: {x: 0.5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6556795018519878743}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5441790034305316537
@@ -90,3 +217,92 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1491990711193971471
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7443505830191480981}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: b2e48a8553cc56243892a06271dc3c99, type: 3}
+--- !u!1 &9173688544053123514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9203485191417245373}
+  - component: {fileID: 9033353197228714567}
+  - component: {fileID: 8516564543981464041}
+  m_Layer: 7
+  m_Name: Zona_Anticipacion
+  m_TagString: Parking
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &9203485191417245373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9173688544053123514}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6556795018519878743}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &9033353197228714567
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9173688544053123514}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6.229248, y: 1, z: 51.77246}
+  m_Center: {x: -3.2159424, y: 0, z: 5.093506}
+--- !u!114 &8516564543981464041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9173688544053123514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e52a140e1e1e594ba12c5b091a817b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.Evaluation::AnticipationTrigger
+  parentScript: {fileID: 59520139280388455}

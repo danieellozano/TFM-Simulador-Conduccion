@@ -1393,6 +1393,7 @@ MonoBehaviour:
   rpmText: {fileID: 7611593614038805534}
   leftArrow: {fileID: 3363945553507815863}
   rightArrow: {fileID: 4939928421162416237}
+  handbrakeIcon: {fileID: 0}
   vehicle: {fileID: 0}
   rpmStep: 200
 --- !u!114 &7175342267433546589
@@ -1407,13 +1408,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e87f505d014e1494f8c52ead57003ce0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Simulador.HUD::Simulador.HUD.MissionUI
-  messageDuration: 6
-  notificationPanel: {fileID: 1003900422784098674}
-  notificationText: {fileID: 4739286044505085058}
-  summaryPanel: {fileID: 3630807401523581397}
-  finalTitleText: {fileID: 3844048324106267284}
-  objectiveText: {fileID: 9141751765446751116}
+  dashboardObjectiveText: {fileID: 0}
   objectiveSO: {fileID: 11400000, guid: 34fc350149b8a8e4f932327b8d06b4ef, type: 2}
+  summaryPanel: {fileID: 3630807401523581397}
+  reportPanelBase: {fileID: 0}
+  detailsPanelTabla: {fileID: 0}
+  pauseMenuPanel: {fileID: 0}
+  titleStatusText: {fileID: 0}
+  resultStatusText: {fileID: 0}
+  reportHeader: {fileID: 0}
+  tableBodyText: {fileID: 0}
+  totalInfraccionesText: {fileID: 0}
+  evaluator: {fileID: 0}
 --- !u!114 &3999216676113284084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1484,6 +1490,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Simulador.HUD::Simulador.HUD.BriefingUI
   briefingPanel: {fileID: 1764895862669367610}
   inputManager: {fileID: 0}
+  transmissionSelector: {fileID: 0}
+  dgtEvaluator: {fileID: 0}
 --- !u!1 &3229569496170797354
 GameObject:
   m_ObjectHideFlags: 0

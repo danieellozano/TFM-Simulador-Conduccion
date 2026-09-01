@@ -1,10 +1,9 @@
 using UnityEngine;
 using System.IO;
 using System.Text;
-using Simulador.Evaluation;
 using Simulador.Core;
 
-namespace Simulador.Telemetry
+namespace Simulador.Evaluation
 {
     public class ReportExporter : MonoBehaviour
     {

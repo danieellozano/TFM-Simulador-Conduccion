@@ -2,8 +2,7 @@
     "name": "Simulador.Evaluation",
     "rootNamespace": "",
     "references": [
-        "GUID:88020364ec98ce542ba6398c62f2a2af",
-        "GUID:f2a99164bfd68b44985c706377b833a0"
+        "GUID:88020364ec98ce542ba6398c62f2a2af"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -5,7 +5,7 @@ namespace Simulador.Evaluation
 {
     public class ObjectiveSensor : MonoBehaviour
     {
-        public GameEvent onObjectiveComplete; // Arrastra OnEslalonComplete
+        public GameEvent onObjectiveComplete; 
 
         private void OnTriggerEnter(Collider other)
         {

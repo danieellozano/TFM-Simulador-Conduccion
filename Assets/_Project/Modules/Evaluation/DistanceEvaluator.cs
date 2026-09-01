@@ -5,6 +5,7 @@ namespace Simulador.Evaluation
 {
     public class DistanceEvaluator : MonoBehaviour
     {
+        [Header("Referencias SOA")]
         public FloatVariable currentSpeed;    // CurrentSpeed.asset
         public GameEvent infractionEvent;     // OnInfractionDetected
         public InfraccionSO distanceRule;     // INT-DIST (Deficiente)
@@ -16,10 +17,8 @@ namespace Simulador.Evaluation
 
         private void Update()
         {
-            if (currentSpeed.Value < 10f) return; // No evaluamos en atascos/parados
-
             RaycastHit hit;
-            // Lanzamos un rayo hacia adelante
+            // Lanzamos un rayo hacia adelante de longitud fija (30 metros)
             if (Physics.Raycast(transform.position + Vector3.up * 0.5f, transform.forward, out hit, 30f, trafficLayer))
             {
                 // Calculamos la distancia de seguridad necesaria: V(m/s) * tiempo
@@ -29,15 +28,22 @@ namespace Simulador.Evaluation
                 if (hit.distance < requiredDistance)
                 {
                     violationTimer += Time.deltaTime;
-                    // Si persiste más de 3 segundos pegado al coche de delante
+                    // Si el acoso persiste más de 3 segundos pegado al coche de delante
                     if (violationTimer > 3.0f)
                     {
                         infractionEvent.Raise(distanceRule);
                         Debug.Log("<color=orange>DGT DEFICIENTE:</color> Distancia de seguridad insuficiente.");
-                        violationTimer = -5f; // Cooldown
+                        violationTimer = -5f; // Cooldown de 5 segundos para evitar spam
                     }
                 }
-                else { violationTimer = 0f; }
+                else 
+                { 
+                    violationTimer = 0f; 
+                }
+            }
+            else
+            {
+                violationTimer = 0f;
             }
         }
     }

@@ -1,6 +1,5 @@
 using UnityEngine;
 using Simulador.Core;
-using Simulador.AI;
 
 namespace Simulador.Evaluation
 {

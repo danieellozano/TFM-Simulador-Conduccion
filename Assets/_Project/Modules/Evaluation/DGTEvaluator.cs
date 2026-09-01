@@ -24,6 +24,13 @@ namespace Simulador.Evaluation
         {
             if (data is InfraccionSO infraccion)
             {
+                // ESCENARIO MANIOBRAS: No registramos infracciones en el circuito de maniobras
+                if (modoActual == ModoDeJuego.Maniobras)
+                {
+                    Debug.Log($"<color=white>DGT Evaluador:</color> Infracción {infraccion.codigo} omitida por estar en circuito de Maniobras.");
+                    return;
+                }
+            
                 // --- LÓGICA DE COOLDOWN ---
                 if (cooldowns.ContainsKey(infraccion))
                 {

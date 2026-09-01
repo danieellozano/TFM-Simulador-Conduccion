@@ -6,13 +6,13 @@ namespace Simulador.HUD
 {
     public class DashboardUI : MonoBehaviour
     {
-        [Header("Fuentes de Datos")]
+        [Header("Fuentes de Datos (SOA)")]
         public FloatVariable speedSO;
         public IntVariable gearSO;
         public FloatVariable limitSO;
-        
         public FloatVariable rpmSO;
-
+        public InputDataSO inputData;       // Referencia al contrato de entrada del Core
+        public BoolVariable isStalledSO;    // Referencia al calado del Core
 
         [Header("Componentes Visuales")]
         public TextMeshProUGUI speedText;
@@ -20,80 +20,62 @@ namespace Simulador.HUD
         public TextMeshProUGUI limitText;
         public TextMeshProUGUI rpmText;  
 
-        [Header("Intermitentes")]
+        [Header("Indicadores")]
         public GameObject leftArrow;
         public GameObject rightArrow; 
-
-        [Header("Indicador Freno de Mano")]
         public GameObject handbrakeIcon;    
 
-        [Header("Vehicle Controller")]
-        public Simulador.PhysicsModule.VehicleController vehicle;
-
-
-        [Header("Ajustes de RPM")]
+        [Header("Ajustes")]
         public int rpmStep = 200; 
 
         private void Update()
         {
-            // Actualizar Velocidad (Sin decimales)
+            // 1. Actualizar Velocidad
             if (speedSO != null && speedText != null)
                 speedText.text = Mathf.FloorToInt(speedSO.Value).ToString(); 
 
-            // Actualizar Marcha (Traducción de números a letras)
+            // 2. Actualizar Marcha
             if (gearSO != null && gearText != null)
                 gearText.text = FormatGear(gearSO.Value);
 
-            // Actualizar Límite
+            // 3. Actualizar Límite
             if (limitSO != null && limitText != null)
-            {
                 limitText.text = (limitSO.Value <= 0) ? "--" : limitSO.Value.ToString();
-            }
 
-            if (vehicle != null)
+            // 4. Actualizar Intermitentes (Lectura desde el InputData del Core)
+            if (leftArrow != null && rightArrow != null && inputData != null)
             {
-                // Esto te dirá en la consola si el HUD está intentando encender las flechas
-                if (vehicle.activeBlinker != 0) 
-                {
-                    Debug.Log($"Intermitente: {vehicle.activeBlinker} | Estado luz: {vehicle.blinkerState}");
-                }
-
-                leftArrow.SetActive(vehicle.activeBlinker == -1 && vehicle.blinkerState);
-                rightArrow.SetActive(vehicle.activeBlinker == 1 && vehicle.blinkerState);
+                // Simulamos el parpadeo basándonos en el tiempo
+                bool blinkState = (Time.time % 1.0f) < 0.5f;
+                leftArrow.SetActive(inputData.ActiveBlinker == -1 && blinkState);
+                rightArrow.SetActive(inputData.ActiveBlinker == 1 && blinkState);
             }
 
-            
+            // 5. Actualizar RPM
             if (rpmSO != null && rpmText != null)
             {
-                // Lógica de redondeo por intervalos:
-                // 1. Dividimos el valor real entre el paso (ej: 854 / 200 = 4.27)
-                // 2. Redondeamos al entero más cercano (4.27 -> 4)
-                // 3. Multiplicamos de nuevo por el paso (4 * 200 = 800)
                 int roundedRPM = Mathf.RoundToInt(rpmSO.Value / rpmStep) * rpmStep;
-
-                // Si el motor está calado, forzamos el 0 para que no queden restos
-                if (vehicle != null && vehicle.isStalled) roundedRPM = 0;
+                
+                // Lectura del estado de calado desde el SO del Core
+                if (isStalledSO != null && isStalledSO.Value) roundedRPM = 0;
 
                 rpmText.text = "RPM: " + roundedRPM.ToString();
-                
-                // Cambiar a rojo si supera el límite de seguridad (ej. 5500)
                 rpmText.color = (roundedRPM >= 5500) ? Color.red : Color.white;
             }
 
-            if (vehicle != null && handbrakeIcon != null)
+            // 6. Actualizar Freno de Mano (Lectura desde el InputData del Core)
+            if (handbrakeIcon != null && inputData != null)
             {
-                // El icono se activa si el booleano Handbrake en el InputData es true
-                handbrakeIcon.SetActive(vehicle.inputData.Handbrake);
+                handbrakeIcon.SetActive(inputData.Handbrake);
             }
-
         }
 
         private string FormatGear(int gear)
         {
             switch (gear)
             {
-                case -1: return "R"; // Reverse
-                case 0:  return "N"; // Neutral
+                case -1: return "R";
+                case 0:  return "N";
                 default: return gear.ToString();
             }
         }
