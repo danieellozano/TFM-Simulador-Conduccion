@@ -1,6 +1,7 @@
 using UnityEngine;
+using Simulador.Core;
 
-namespace Simulador.Core
+namespace Simulador.Physics
 {
     [RequireComponent(typeof(Camera))]
     public class CameraController : MonoBehaviour

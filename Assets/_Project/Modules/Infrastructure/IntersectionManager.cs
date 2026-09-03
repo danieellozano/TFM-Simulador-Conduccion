@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Simulador.Core;
 
-namespace Simulador.Core
+namespace Simulador.Infrastructure
 {
     public class IntersectionManager : MonoBehaviour
     {

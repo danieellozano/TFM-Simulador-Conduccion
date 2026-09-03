@@ -154,10 +154,10 @@ namespace Simulador.AI
         private void OnTriggerEnter(Collider other)
         {
             // Lectura dinámica de señales de velocidad
-            SpeedLimitSign sign = other.GetComponentInParent<SpeedLimitSign>();
-            if (sign != null)
+            ISpeedLimitProvider speedLimitProvider = other.GetComponent<ISpeedLimitProvider>(); 
+            if (speedLimitProvider != null)
             {
-                currentRoadLimit = sign.speedLimitValue;
+                currentRoadLimit = speedLimitProvider.GetSpeedLimit();
             }
         }
 

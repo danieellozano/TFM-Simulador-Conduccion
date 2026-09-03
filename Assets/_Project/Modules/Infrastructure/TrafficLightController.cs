@@ -1,13 +1,12 @@
 using UnityEngine;
-
-namespace Simulador.Core
+using Simulador.Core;
+namespace Simulador.Infrastructure
 {
-    public enum LightState { Red, Amber, Green }
-
-    public class TrafficLightController : MonoBehaviour
+    public class TrafficLightController : MonoBehaviour, ILightSource
     {
         [Header("Estado Actual")]
         public LightState currentState = LightState.Red;
+        public LightState CurrentState => currentState;
         
         [Header("Referencias Visuales")]
         public GameObject redLight;

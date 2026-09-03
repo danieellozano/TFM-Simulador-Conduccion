@@ -4,21 +4,23 @@ using System.Collections.Generic;
 
 namespace Simulador.Evaluation
 {
-    public class DGTEvaluator : MonoBehaviour
+    public class DGTEvaluator : MonoBehaviour, IEvaluacionProvider
     {
         [Header("Contadores de Faltas")]
         public int faltasLeves = 0;
         public int faltasDeficientes = 0;
         public int faltasEliminatorias = 0;
 
-        public List<InfraccionSO> historialInfracciones = new List<InfraccionSO>();
+        public List<InfraccionSO> historialInfracciones { get; } = new List<InfraccionSO>();
+
         public bool evaluacionActiva = true;
 
         [Header("Estado de la Sesión")]
-        public ModoDeJuego modoActual;
+        public ModoDeJuego modoActual { get; set; }
 
         private Dictionary<InfraccionSO, float> cooldowns = new Dictionary<InfraccionSO, float>();
         public float tiempoEsperaInfraccion = 1.5f;
+
 
         public void RegistrarInfraccion(object data)
         {
@@ -106,5 +108,6 @@ namespace Simulador.Evaluation
             }
             return (historialInfracciones.Count == 0) ? "Sin infracciones registradas." : tabla;
         }
+        
     }
 }

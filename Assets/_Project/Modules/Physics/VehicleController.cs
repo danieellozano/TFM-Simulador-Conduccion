@@ -94,7 +94,7 @@ namespace Simulador.PhysicsModule
         }
 
         private void Update() {
-            UpdateWheelVisuals();
+            //UpdateWheelVisuals();
             UpdateVisualSteeringWheel();
             HandleBlinkersLogic();
         }
@@ -235,10 +235,10 @@ namespace Simulador.PhysicsModule
             if(currentGearVariable != null) currentGearVariable.Value = inputData.CurrentGear;
         }
 
-        private void UpdateWheelVisuals() {
-            SyncWheel(frontLeftWheel, visualFL); SyncWheel(frontRightWheel, visualFR);
-            SyncWheel(rearLeftWheel, visualRL); SyncWheel(rearRightWheel, visualRR);
-        }
+        // private void UpdateWheelVisuals() {
+        //     SyncWheel(frontLeftWheel, visualFL); SyncWheel(frontRightWheel, visualFR);
+        //     SyncWheel(rearLeftWheel, visualRL); SyncWheel(rearRightWheel, visualRR);
+        // }
 
         private void SyncWheel(WheelCollider col, Transform mesh) {
             if (mesh == null) return;

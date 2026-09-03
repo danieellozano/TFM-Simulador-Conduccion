@@ -3,7 +3,7 @@ using Simulador.Core; // Para acceder a FloatVariable
 
 namespace Simulador.Core
 {
-    public class SpeedLimitSign : MonoBehaviour
+    public class SpeedLimitSign : MonoBehaviour, ISpeedLimitProvider
     {
         [Header("Configuración de la Señal")]
         [Tooltip("El valor que esta señal inyectará en el sistema")]
@@ -11,6 +11,8 @@ namespace Simulador.Core
         
         [Header("Canal de Salida")]
         public FloatVariable currentLimitSO; // Arrastra aquí el asset CurrentSpeedLimit
+
+        public float GetSpeedLimit() => speedLimitValue;
 
         private void OnTriggerEnter(Collider other)
         {

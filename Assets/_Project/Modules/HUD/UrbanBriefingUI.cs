@@ -1,7 +1,6 @@
 using UnityEngine;
 using Simulador.Core;
 using UnityEngine.SceneManagement;
-using Simulador.Evaluation;
 
 namespace Simulador.HUD
 {
@@ -18,9 +17,9 @@ namespace Simulador.HUD
         [Header("Perfiles de Misión")]
         public UrbanMissionProfileSO perfilExamen;
         public UrbanMissionProfileSO perfilLibre;
-
-        public DGTEvaluator dgtEvaluator; 
-
+       
+        [SerializeField] private MonoBehaviour dgtEvaluator; // Solo para el Inspector
+        public IEvaluacionProvider evaluator => dgtEvaluator as IEvaluacionProvider; // Acceso limpio
         private UrbanMissionProfileSO perfilSeleccionado;
 
         private void Awake()
@@ -33,7 +32,6 @@ namespace Simulador.HUD
 
         private void Start()
         {
-            // NUEVO: Suscripción al evento
             if (transmissionSelector != null)
             {
                 transmissionSelector.OnTransmissionSelected += AlConfirmarTransmision;
@@ -42,7 +40,6 @@ namespace Simulador.HUD
 
         private void OnDestroy()
         {
-            // NUEVO: Desuscripción
             if (transmissionSelector != null)
             {
                 transmissionSelector.OnTransmissionSelected -= AlConfirmarTransmision;
@@ -51,23 +48,21 @@ namespace Simulador.HUD
 
         public void SeleccionarExamen() 
         { 
-            if (dgtEvaluator != null) dgtEvaluator.modoActual = ModoDeJuego.ExamenUrbano;
+            if (evaluator != null) evaluator.modoActual = ModoDeJuego.ExamenUrbano;
             PrepararInicio(perfilExamen); 
         }
 
         public void SeleccionarLibre() 
         { 
-            if (dgtEvaluator != null) dgtEvaluator.modoActual = ModoDeJuego.PracticaUrbana;
+            if (evaluator != null) evaluator.modoActual = ModoDeJuego.PracticaUrbana;
             PrepararInicio(perfilLibre); 
         }
 
         private void PrepararInicio(UrbanMissionProfileSO perfil)
         {
             perfilSeleccionado = perfil;
-
             if (urbanBriefingPanel != null) urbanBriefingPanel.SetActive(false);
 
-            // Abrimos el selector de transmisión independiente
             if (transmissionSelector != null)
             {
                 transmissionSelector.MostrarSelector();
@@ -86,13 +81,11 @@ namespace Simulador.HUD
         private void Empezar(UrbanMissionProfileSO perfil)
         {
             if (urbanManager == null) { Debug.LogError("Falta asignar el Urban_Manager en el HUD_Manager"); return; }
-
             if (inputManager != null) inputManager.SetActive(true);
             
             Time.timeScale = 1f; 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
             urbanManager.IniciarExamen(perfil); 
         }
 
