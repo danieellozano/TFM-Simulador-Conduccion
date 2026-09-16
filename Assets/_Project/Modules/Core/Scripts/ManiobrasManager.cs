@@ -3,13 +3,26 @@ using System.Collections.Generic;
 
 namespace Simulador.Core
 {
+    // Gestor de progresión secuencial de ejercicios para el circuito de maniobras.
+    // Administra la visibilidad de los hitos físicos y visuales en la escena (balizas,
+    // zonas de detención y áreas de aparcamiento) en función de la etapa activa,
+    // actualizando las instrucciones pedagógicas proyectadas en la interfaz (HUD)
+    // a través del canal de datos objectiveSO.
     public class ManiobrasManager : MonoBehaviour
     {
+        [Tooltip("Canal de datos ScriptableObject donde se escribe la instrucción activa para el HUD.")]
         public StringVariable objectiveSO;
+
+        // Diccionario que clasifica y almacena en memoria los objetos visuales según su etiqueta de fase
         private Dictionary<string, List<GameObject>> gruposHitos = new Dictionary<string, List<GameObject>>();
+
+        // Secuencia lógica de etiquetas que define el orden del examen de maniobras
         private string[] ordenTags = { "Marker_Stop", "Marker_Eslalon", "Marker_Linea", "Marker_Bateria" };
+
+        [Tooltip("Índice de la fase actual del circuito en ejecución.")]
         public int faseActual = 0; 
 
+        // Rastrea y clasifica al iniciar la escena todos los objetos de referencia vinculados a cada prueba.
         private void Awake()
         {
             gruposHitos.Clear();
@@ -20,9 +33,16 @@ namespace Simulador.Core
             }
         }
 
-        private void Start() { ActualizarVisualesMision(); }
+        // Inicializa los marcadores visuales del escenario en la primera fase.
+        private void Start() 
+        { 
+            ActualizarVisualesMision(); 
+        }
 
-        // Mantenemos el (object data) para que sea compatible con el Listener
+        // Avanza el progreso de la prueba a la siguiente fase y actualiza el entorno y la interfaz.
+        // Este método actúa como receptor directo del bus de eventos (GameEventListener).
+        // Parámetros:
+        //   data: Carga útil del evento disparador (mantenida para compatibilidad con la firma del Listener).
         public void AvanzarFase(object data)
         {
             faseActual++;
@@ -30,25 +50,40 @@ namespace Simulador.Core
             ActualizarVisualesMision();
         }
 
+        // Oculta los elementos de fases inactivas y activa únicamente los hitos espaciales del ejercicio actual.
+        // Si el alumno supera todos los hitos, marca la sesión como completada.
         private void ActualizarVisualesMision()
         {
-            // Apagar todo
+            // Oculta todos los elementos visuales registrados en el diccionario
             foreach (var lista in gruposHitos.Values)
-                foreach (GameObject obj in lista) if(obj) obj.SetActive(false);
+            {
+                foreach (GameObject obj in lista) 
+                {
+                    if (obj) obj.SetActive(false);
+                }
+            }
 
-            // Encender lo que toca
+            // Activa exclusivamente los elementos correspondientes a la fase activa
             if (faseActual < ordenTags.Length)
             {
                 string tagActual = ordenTags[faseActual];
-                foreach (GameObject hito in gruposHitos[tagActual]) hito.SetActive(true);
+                foreach (GameObject hito in gruposHitos[tagActual]) 
+                {
+                    hito.SetActive(true);
+                }
                 SetObjectiveText();
             }
-            else { if(objectiveSO != null) objectiveSO.Value = "PRÁCTICA FINALIZADA"; }
+            else 
+            { 
+                if (objectiveSO != null) objectiveSO.Value = "PRÁCTICA FINALIZADA"; 
+            }
         }
 
+        // Asigna la guía textual correspondiente a la fase activa en la variable compartida de la interfaz.
         private void SetObjectiveText()
         {
             if (objectiveSO == null) return;
+
             switch (faseActual)
             {
                 case 0: objectiveSO.Value = "1. Deténgase en el STOP."; break;

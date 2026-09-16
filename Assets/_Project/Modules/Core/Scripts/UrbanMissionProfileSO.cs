@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Simulador.Core
 {
-    // Definimos el enum aquí para que todo el proyecto lo vea
     public enum UrbanTaskType { ConduccionLibre, ConduccionGuiada, Estacionamiento }
 
     [System.Serializable]

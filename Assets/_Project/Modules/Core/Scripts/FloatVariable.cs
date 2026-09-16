@@ -8,7 +8,7 @@ namespace Simulador.Core
         [Tooltip("Valor actual de esta variable compartida")]
         public float Value;
 
-        // Opcional: Método para resetear el valor al iniciar la aplicación
+        // Método para resetear el valor al iniciar la aplicación
         public void SetValue(float newValue) => Value = newValue;
     }
 }

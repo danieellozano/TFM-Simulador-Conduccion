@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro; 
-using Simulador.Core; // <--- Ahora esto ya no dará error
+using Simulador.Core; 
 
 namespace Simulador.HUD
 {

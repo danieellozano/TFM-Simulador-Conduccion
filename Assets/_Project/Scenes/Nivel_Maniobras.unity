@@ -19033,11 +19033,12 @@ MonoBehaviour:
     completamente <b>(0 Km/h)</b> dentro del recuadro verde de la se\xF1al de STOP.
     Una vez validado, se activar\xE1 el siguiente marcador.\r\n\u2022 <b>Control
     de Giro (Eslalon):</b> Supera el circuito de obst\xE1culos esquivando los hitos
-    sin realizar contacto f\xEDsico con las balizas.\r\n\u2022 <b>Maniobras de Estacionamiento:</b>\r\n 
-    - <i>En L\xEDnea:</i> Estaciona el coche en la zona verde delimitada y <b>usa
-    el freno de mano [ESPACIO]</b> para validar la maniobra.\r\n  - <i>En Bater\xEDa
-    (META):</i> Realiza el estacionamiento en bater\xEDa final en el \xE1rea verde
-    y <b>usa el freno de mano [ESPACIO]</b> para concluir la sesi\xF3n.\r\n<color=#FFFFFF>-----------------------------------------------------------</color>\r\n<b>3.
+    sin realizar contacto f\xEDsico con las balizas t realice la detenci\xF3n obligatoria
+    (STOP).\r\n\u2022 <b>Maniobras de Estacionamiento:</b>\r\n  - <i>En L\xEDnea:</i>
+    Estaciona el coche en la zona verde delimitada y <b>usa el freno de mano [ESPACIO]</b>
+    para validar la maniobra.\r\n  - <i>En Bater\xEDa (META):</i> Realiza el estacionamiento
+    en bater\xEDa final en el \xE1rea verde y <b>usa el freno de mano [ESPACIO]</b>
+    para concluir la sesi\xF3n.\r\n<color=#FFFFFF>-----------------------------------------------------------</color>\r\n<b>3.
     CONSEJOS PEDAG\xD3GICOS:</b>\r\n\u2022 <b>Gu\xEDa Visual:</b> Presta atenci\xF3n
     al mensaje de objetivo en pantalla; solo se mostrar\xE1 el marcador activo correspondiente
     a tu tarea actual.\r\n\u2022 <b>Retrovisi\xF3n:</b> Utiliza los retrovisores
@@ -34105,6 +34106,14 @@ PrefabInstance:
       propertyPath: vehicle
       value: 
       objectReference: {fileID: 877865999}
+    - target: {fileID: 1030984573136795128, guid: 49e38898e67fdb248aff2ee25feae3bd, type: 3}
+      propertyPath: inputData
+      value: 
+      objectReference: {fileID: 11400000, guid: ecc662eaada989742917e831b6e7cb15, type: 2}
+    - target: {fileID: 1030984573136795128, guid: 49e38898e67fdb248aff2ee25feae3bd, type: 3}
+      propertyPath: isStalledSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 078540620fb3b41478465323c357c572, type: 2}
     - target: {fileID: 1955993959764139091, guid: 49e38898e67fdb248aff2ee25feae3bd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

@@ -3,15 +3,27 @@ using Simulador.Core;
 
 namespace Simulador.InputModule
 {
+    // Módulo de lectura de hardware e inyección de datos para la Capa de Abstracción (HAL).
+    // Captura los comandos analógicos y discretos procedentes del periférico (volante, pedales o teclado)
+    // a través del Input System de Unity y los escribe en un ScriptableObject centralizado (InputDataSO)
+    // para desacoplar la simulación de físicas y los sistemas de interfaz del dispositivo físico.
     public class InputReader : MonoBehaviour
     {
+        [Tooltip("Contrato y buffer de datos normalizados para la comunicación desacoplada con el Core.")]
         public InputDataSO inputData;
+        [Tooltip("Evento del bus SOA que se emite para solicitar el reinicio de la posición/estado del vehículo.")]
         public GameEvent restartEvent;
+        // Instancia generada automáticamente por el Input System con el mapa de acciones de entrada.
         private SimuladorInput controls;
 
+        [Tooltip("Evento del bus SOA que solicita la conmutación del estado de pausa del juego.")]
         public GameEvent pauseEvent;
+        [Tooltip("Variable booleana en ScriptableObject que define si la transmisión seleccionada es automática.")]
         public BoolVariable isAutomaticSO; // Canal para saber si la transmisión es automática
 
+        // Inicializa el mapa de acciones de entrada y configura las llamadas por eventos (callbacks) para cada comando.
+        // Parámetros: Ninguno.
+        // Salida: Ninguna.
         private void Awake()
         {
             controls = new SimuladorInput();
@@ -77,9 +89,19 @@ namespace Simulador.InputModule
             };
         }
 
+        // Habilita la escucha activa del mapa de entradas de la simulación al activar el componente.
+        // Parámetros: Ninguno.
+        // Salida: Ninguna.
         private void OnEnable() => controls?.Enable();
+
+        // Deshabilita la escucha del mapa de entradas al desactivar el componente para prevenir filtraciones de control.
+        // Parámetros: Ninguno.
+        // Salida: Ninguna.
         private void OnDisable() => controls?.Disable();
 
+        // Muestrea frame a frame las magnitudes analógicas de pedales, volante y ejes de cámara inyectándolas en la HAL.
+        // Parámetros: Ninguno.
+        // Salida: Ninguna.
         private void Update()
         {
             if (inputData == null || controls == null) return;
@@ -90,7 +112,6 @@ namespace Simulador.InputModule
             inputData.Steering = controls.Driving.Steering.ReadValue<float>(); 
 
             // --- RESTAURADOS CONTROLES DE CÁMARA (SOA) ---
-            // Estas dos líneas corrigen el problema de la cámara inmóvil:
             inputData.Look = controls.Driving.Look.ReadValue<float>();
             inputData.LookReset = controls.Driving.LookReset.triggered; 
         }
