@@ -11231,6 +11231,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.71977234, y: 0.93373895, z: 0.677948}
   m_Center: {x: -0.007839203, y: 0.45095456, z: 0.004333496}
+--- !u!1 &472740746 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6327294768880313604, guid: 49e38898e67fdb248aff2ee25feae3bd, type: 3}
+  m_PrefabInstance: {fileID: 1294777577}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &475486378
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34135,6 +34140,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 894661050856425111}
     - target: {fileID: 2259130190075109278, guid: 49e38898e67fdb248aff2ee25feae3bd, type: 3}
+      propertyPath: summaryPanel
+      value: 
+      objectReference: {fileID: 472740746}
+    - target: {fileID: 2259130190075109278, guid: 49e38898e67fdb248aff2ee25feae3bd, type: 3}
       propertyPath: summaryTitleText
       value: 
       objectReference: {fileID: 1294777581}
@@ -34422,6 +34431,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7564810779228885240, guid: 49e38898e67fdb248aff2ee25feae3bd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1294777594}
+    - target: {fileID: 7564810779228885240, guid: 49e38898e67fdb248aff2ee25feae3bd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FinalizarManiobras
+      objectReference: {fileID: 0}
     - target: {fileID: 8007194332317375812, guid: 49e38898e67fdb248aff2ee25feae3bd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -34642,6 +34659,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1294777594 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2259130190075109278, guid: 49e38898e67fdb248aff2ee25feae3bd, type: 3}
+  m_PrefabInstance: {fileID: 1294777577}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1294777580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c3f66e76b2cab4e84eb9646c967f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Simulador.HUD::Simulador.HUD.PauseManager
 --- !u!1001 &1295069365
 PrefabInstance:
   m_ObjectHideFlags: 0

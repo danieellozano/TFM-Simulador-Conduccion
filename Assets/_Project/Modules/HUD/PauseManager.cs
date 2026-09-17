@@ -12,16 +12,17 @@ namespace Simulador.HUD
         [Tooltip("Referencia al controlador principal de interfaz de misiones para solicitar el cierre o resumen.")]
         public MissionUI missionUI;
         [Tooltip("Panel contenedor de la interfaz de pausa o panel de resumen reutilizado.")]
-        public GameObject pauseMenuPanel; // En Maniobras, arrastra aquí el Summary_Panel
+        public GameObject pauseMenuPanel; 
         
         [SerializeField] private MonoBehaviour evaluatorObject;
         [Tooltip("Proveedor de la interfaz de evaluación DGT para verificar las reglas y modos de juego.")]
         public IEvaluacionProvider evaluator => evaluatorObject as IEvaluacionProvider;
         
         [Tooltip("Panel de instrucciones de la misión utilizado para bloquear la pausa durante el inicio.")]
-        public GameObject urbanBriefingPanel; // En Maniobras, arrastra el Briefing_Panel local
+        public GameObject urbanBriefingPanel; 
         [Tooltip("Gestor de entrada de hardware para inhabilitar el control durante la pausa.")]
         public GameObject inputManager;
+        public GameObject summaryPanel;
 
         [Header("Título Dinámico (Para Reutilizar el Summary_Panel)")]
         [Tooltip("Opcional: Arrastra aquí el componente de texto del título de resultados (solo en Maniobras).")]
@@ -77,11 +78,6 @@ namespace Simulador.HUD
             Time.timeScale = 0f;
             if (inputManager != null) inputManager.SetActive(false);
 
-            // NUEVO: Si estamos reutilizando el Summary_Panel, cambiamos su título a "PAUSA"
-            if (summaryTitleText != null)
-            {
-                summaryTitleText.text = "PAUSA";
-            }
             
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -128,6 +124,22 @@ namespace Simulador.HUD
             {
                 pauseMenuPanel.SetActive(false);
             }
+        }
+        
+        // Finaliza la sesión del escenarios de maniobras.
+        public void FinalizarManiobras()
+        {
+            Time.timeScale = 1f;
+            isPaused = false;
+
+            if (pauseMenuPanel != null) 
+            {
+                pauseMenuPanel.SetActive(false);
+            }
+
+            if (summaryPanel != null) summaryPanel.SetActive(true);
+
+
         }
     }
 }
